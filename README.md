@@ -19,10 +19,11 @@ The following programs must be installed to get images to build. Once
 a Singularity image has been built, it can be transferred to and run
 on any system (e.g. a cluster) without elevated privileges.
 
-Docker: https://docs.docker.com/get-docker/  
-Singularity: https://docs.sylabs.io/guides/latest/user-guide/ 
-NVIDIA-Docker*: https://github.com/NVIDIA/nvidia-docker
-NVIDIA drivers* are easily installed on Ubuntu systems with:    
+*Docker: https://docs.docker.com/get-docker/  
+*Singularity: https://docs.sylabs.io/guides/latest/user-guide/ 
+*NVIDIA-Docker: https://github.com/NVIDIA/nvidia-docker
+
+NVIDIA drivers are easily installed on Ubuntu systems with:    
 ```bash
 ubuntu-drivers devices
 sudo ubuntu-drivers autoinstall
