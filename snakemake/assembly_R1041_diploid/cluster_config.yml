@@ -1,0 +1,185 @@
+__default__:
+    partition: "normal,hns,dpetrov,owners"
+    time: "24:00:00"
+    nodes: 1
+    mem: "32G"
+    ntasks-per-node: 1
+    cpus-per-task: 2
+    threads: 2
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+    chdir: /scratch/users/bkim331/nanopore/
+
+runGuppy:
+    cpus-per-task: 8
+    threads: 8
+    mem: 32G
+    partition: "gpu,owners"
+    constraint: '"GPU_GEN:VLT|GPU_GEN:AMP"'
+    gpus: "gpu:4"
+
+trim_adapter:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    partition: "normal,hns,dpetrov,owners"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+ratatosk:
+    cpus-per-task: 16
+    threads: 16
+    mem: 200G
+    partition: "dpetrov,hns,normal"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runFlye:
+    cpus-per-task: 16
+    threads: 16
+    mem: 200G
+    partition: "dpetrov,hns,normal"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runFCSadaptor:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    partition: normal,hns,dpetrov
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runFCSgx:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    partition: normal,hns,dpetrov
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+removeContam:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    partition: normal,hns,dpetrov
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runPurgeMap:
+    cpus-per-task: 12
+    threads: 12
+    mem: 64G
+    partition: "normal,hns,dpetrov,owners"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runPurgeSplit:
+    cpus-per-task: 1
+    threads: 1
+    mem: 16G
+    partition: "normal,hns,dpetrov,owners"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runPurgeSplitMap:
+    cpus-per-task: 12
+    threads: 12
+    mem: 32G
+    partition: "normal,hns,dpetrov,owners"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+runPurgePurge:
+    cpus-per-task: 1
+    threads: 1
+    mem: 32G
+    partition: "normal,hns,dpetrov,owners"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+hapDupMap:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    partition: "normal,hns,dpetrov"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+hapDupIdx:
+    cpus-per-task: 4
+    threads: 4
+    mem: 32G
+    partition: "normal,hns,dpetrov,owners"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+hapDup:
+    cpus-per-task: 16
+    threads: 16
+    mem: 128G
+    partition: "normal,hns,dpetrov"
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+repeatModeler:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    time: "168:00:00"
+    partition: hns,dpetrov
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+repeatMasker:
+    cpus-per-task: 12
+    threads: 12
+    mem: 92G
+    partition: normal,hns,dpetrov
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+merqurykmer:
+    cpus-per-task: 2
+    threads: 2
+    mem: 16G
+    time: "24:00:00"
+    partition: hns,dpetrov,normal
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+merquryMeryl1:
+    cpus-per-task: 12
+    threads: 12
+    mem: 64G
+    time: "24:00:00"
+    partition: hns,dpetrov,normal
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+merquryMeryl2:
+    cpus-per-task: 12
+    threads: 12
+    mem: 64G
+    time: "24:00:00"
+    partition: hns,dpetrov,normal
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+merquryMerylMerge:
+    cpus-per-task: 8
+    threads: 8
+    mem: 64G
+    time: "24:00:00"
+    partition: hns,dpetrov,normal
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"
+
+merqury:
+    cpus-per-task: 2
+    threads: 2
+    mem: 32G
+    time: "24:00:00"
+    partition: hns,dpetrov,normal
+    constraint: '"CPU_MNF:AMD|CPU_MNF:INTEL"'
+    gpus: "gpu:0"

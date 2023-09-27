@@ -1,0 +1,465 @@
+import os, re
+
+### switch back and forth between depending on how i decide to run it
+# cmd line: SPECIES="D.montana" CHEMISTRY="R10.4.1" snakemake --cores 80 --jobs 30 --use-singularity --rerun-incomplete --singularity-args
+species=os.environ.get("SPECIES").split()
+chemistry=os.environ.get("CHEMISTRY").split()
+
+# or define in here
+# species="D.montana"
+# chemistry="R9.4.1"
+
+# save dir for script output
+localPath="/media/bernardkim/active-data"
+localServer=False
+
+# paths to singularity images
+assembly_simg="/home/bernardkim/singularity_images/nanopore.simg"
+fcsadaptor_simg="/home/bernardkim/singularity_images/fcs-adaptor.simg"
+fcsgx_simg="/home/bernardkim/singularity_images/fcsgx.simg"
+tetools_simg="/home/bernardkim/singularity_images/tetools.simg"
+parabricks_simg="/home/bernardkim/singularity_images/parabricks.simg"
+hapdup_simg="/home/bernardkim/singularity_images/hapdup.simg"
+
+# paths to ncbi contamination screen databases
+shm_loc = "/media/bernardkim/working-2/fcs"      # fast storage
+gxdb_loc = "/media/bernardkim/storage-3/fcs"    # slow storage
+
+# set models
+if chemistry[0] == "R10.4.1":
+    guppy_mod = "dna_r10.4.1_e8.2_400bps_sup.cfg"
+    medaka_mod = "r1041_e82_400bps_sup_v4.2.0"
+    ratatosk_qv = "90"
+elif chemistry[0] == "R9.4.1":
+    guppy_mod = "dna_r9.4.1_450bps_sup.cfg"
+    medaka_mod = "r941_min_sup_g507"
+    ratatosk_qv = "40"
+
+# NCBI taxid for contaminant filtering
+ncbi_taxid = "7214" # taxid for Drosophilidae
+
+# Do short reads exist?
+srExists = ((os.path.exists('{}_R1.fastq.gz'.format(species[0])) and 
+             os.path.exists('{}_R2.fastq.gz'.format(species[0])) ) or
+            (os.path.exists('{}_R1.fastq'.format(species[0])) and 
+             os.path.exists('{}_R2.fastq'.format(species[0])) ))
+
+def setMerquryConditional(wildcards):
+    inputs = dict()
+    if srExists:
+        s=species
+        inputs["merqury"]=expand("{s}.merqury.log", s=species)
+        inputs["qvGenome"]=expand("{s}.merqury.qv", s=species)
+        inputs["qvChr"]=expand("{s}.merqury.{s}.rm.qv", s=species)
+        inputs["compGenome"]=expand("{s}.completeness.stats", s=species)
+    return inputs
+
+rule all:
+    input:
+        unpack(setMerquryConditional),
+        genome=expand("{species}.rm.fasta", species=species),
+        consensus=expand("{species}-families.fa", species=species),
+        gff=expand("{species}.rm.gff", species=species),
+        stk=expand("{species}-families.stk", species=species),
+        flye=expand("{species}.flye.fasta", species=species)
+    params:
+        path=localPath
+    run:
+        if localServer:
+            shell("cp {input.genome} {params.path}/repeatModeler/masked/{input.genome}")
+            shell("cp {input.consensus} {params.path}/repeatModeler/consensus/{input.consensus}")
+            shell("cp {input.gff} {params.path}/repeatModeler/repeatMasker/{input.gff}")
+            shell("cp {input.stk} {params.path}/repeatModeler/consensus/{input.stk}")
+            shell("cp {input.flye} {params.path}/flye/{input.flye}")
+            shell("cp {input.merqury} {params.path}/merqury/{input.merqury}")
+            shell("cp {input.qvGenome} {params.path}/merqury/{input.qvGenome}")
+            shell("cp {input.qvChr} {params.path}/merqury/{input.qvChr}")
+            shell("cp {input.compGenome} {params.path}/merqury/{input.compGenome}")
+
+# if nanopore fastq doesn't exist, perform basecalling
+# if os.path.exists(species[0]) \
+#    and not os.path.exists('{}.passReads.guppy646.fastq.gz'.format(species)):
+#     rule runGuppy:
+#         singularity: assembly_simg
+#         input:
+#             directory("{species}")
+#         output:
+#             "{species}.passReads.guppy646.fastq.gz"
+#         threads:
+#             80
+#         params:
+#             mod = guppy_mod
+#         shell:
+#             'resume=""; [ -d "{wildcards.species}.basecalled" ] && resume="--resume"; '
+#             "guppy_basecaller -i {input}"
+#             " -s {wildcards.species}.basecalled --recursive"
+#             " --config {params.mod}"
+#             ' --device "cuda:all"'
+#             " --trim_strategy dna --calib_detect ${{resume}}"
+#             " && cat {wildcards.species}.basecalled/pass/*.fastq"
+#             " | pigz -p{threads}"
+#             " > {output}"
+
+# if short reads exist, do trimming
+if srExists:
+    rule trim_adapter:
+        input:
+            fwd="{species}_R1.fastq.gz",
+            rev="{species}_R2.fastq.gz"
+        output:
+            out1=temporary("{species}_tr_1.fastq"),
+            out2=temporary("{species}_tr_2.fastq")
+        threads:
+            80
+        shell:
+            "~/tools/bbmap/bbduk.sh"
+            " in={input.fwd} in2={input.rev}"
+            " out1={output.out1} out2={output.out2}"
+            " ref=~/tools/bbmap/resources/adapters.fa,kapa"
+            " threads={threads} ktrim=r k=23 mink=11 hdist=1 ftm=5 tpe tbo"
+
+# run hybrid error correction
+if srExists:
+    rule ratatosk:
+        singularity: assembly_simg
+        input:
+            lreads = "{species}.passReads.guppy646.fastq.gz",
+            fwdtr="{species}_tr_1.fastq.gz",
+            revtr="{species}_tr_2.fastq.gz"
+        output:
+            "{species}.passReads.guppy646.corr.fastq.gz"
+        params:
+            rataQV=ratatosk_qv
+        threads:
+            80
+        shell:
+            "Ratatosk correct -v -G -c {threads} -Q {params.rataQV}"
+            " -s {input.fwdtr} -s {input.revtr} -l {input.lreads}"
+            " -o {wildcards.species}.passReads.guppy646.corr"
+
+def setLrFile(wildcards):
+    files = dict()
+    if srExists:
+        files["reads"]=expand("{s}.passReads.guppy646.corr.fastq.gz", s=wildcards.species)
+    else:
+        files["reads"]=expand("{s}.passReads.guppy646.fastq.gz", s=wildcards.species)
+    return files
+
+def setLrParams(wildcards):
+    par = dict()
+    if srExists:
+        par["flyetype"]="--nano-raw"
+    else:
+        par["flyetype"]="--nano-raw"
+    return par["flyetype"]
+
+rule runFlye:
+    singularity: assembly_simg
+    input:
+        reads="{species}.passReads.guppy646.fastq.gz"
+    output:
+        draft="{species}.flye.fasta",
+        flyeDir=temporary(directory("{species}.flye"))
+    params:
+        setLrParams
+    threads:
+        80
+    shell:
+        "flye {params.flyetype} {input.reads} --threads {threads} "
+        "--scaffold --no-alt-contigs "
+        "--out-dir {output.flyeDir} "
+        "&& seqkit seq -m 100 {output.flyeDir}/assembly.fasta > {output.draft}"
+
+rule runFCSadaptor:
+    input:
+        "{species}.flye.fasta"
+    output:
+        draft="{species}.fcs-adaptor.fasta",
+        outDir=temporary(directory("{species}_fcs-adaptor"))
+    params:
+        simg=fcsadaptor_simg
+    shell:
+        "mkdir -p {output.outDir}; "
+        "singularity exec {params.simg}"
+        "    /app/fcs/bin/av_screen_x -o {output.outDir} --euk {input}"
+        " && cp {output.outDir}/cleaned_sequences/{input} {output.draft}"
+
+rule runFCSgx:
+    input:
+        "{species}.fcs-adaptor.fasta"
+    output:
+        outDir=temporary(directory("{species}_fcsgx")),
+        fcsFile="{species}_fcsgx/{species}.fcs-adaptor." + ncbi_taxid + ".fcs_gx_report.txt"
+    params:
+        simg=fcsgx_simg,
+        shm=shm_loc,
+        gxdb=gxdb_loc,
+        taxid=ncbi_taxid
+    shell:
+        "SHM_LOC={params.shm}; "
+        'mkdir -p "${{SHM_LOC}}/gxdb"; '
+        "mkdir -p {output.outDir}; "
+        "[ ! -f run_fcsgx.py ] && wget https://raw.githubusercontent.com/ncbi/fcs/v0.3.0/dist/run_fcsgx.py; "
+        "python3 ./run_fcsgx.py --fasta {input} --out-dir {output.outDir}"
+        ' --gx-db "${{SHM_LOC}}/gxdb/all" --gx-db-disk {params.gxdb}'
+        " --split-fasta --tax-id {params.taxid} "
+        " --container-engine singularity --image={params.simg}"
+
+rule removeContam:
+    singularity: assembly_simg
+    input:
+        fcsdir="{species}_fcsgx",
+        fcsfile="{species}_fcsgx/{species}.fcs-adaptor." + ncbi_taxid + ".fcs_gx_report.txt",
+        draft="{species}.fcs-adaptor.fasta",
+        fcsadir="{species}_fcs-adaptor"
+    output:
+        genomeBed="{species}.genome.bed",
+        contamBed="{species}.contam.bed",
+        keepBed="{species}.keep.bed",
+        genome="{species}.cleaned.fasta"
+    threads:
+        1
+    shell:
+        "(samtools faidx {input.draft} --fai-idx -"
+        """ | awk '{{print $1"\\t"0"\\t"$2}}' """
+        " > {output.genomeBed} )"
+        ' && (cat {input.fcsfile} | grep -v "^#" '
+        """ | awk '{{print $1"\\t"$2-1"\\t"$3}}' > {output.contamBed} ) || true"""
+        " && if [ -s {output.contamBed} ]; then "
+        " bedtools subtract -a {output.genomeBed} -b {output.contamBed} > {output.keepBed};"
+        " else cat {output.genomeBed} > {output.keepBed}; fi "
+        " && bedtools getfasta -fi {input.draft} -bed {output.keepBed}"
+        """ | awk '/^>/{{print ">contig_" ++i; next}}{{print}}' """
+        " > {output.genome}"
+
+def setMM2Params(wildcards):
+    par = dict()
+    if srExists:
+        return "map-hifi"
+    else:
+        return "map-ont"
+
+rule runPurgeMap:
+    singularity: assembly_simg
+    input:
+        unpack(setLrFile),
+        draft="{species}.cleaned.fasta"
+    output:
+        purgeDir=temporary(directory("{species}.purge")),
+        paf="{species}.purge/{species}.paf",
+        cutoffs="{species}.purge/{species}.cutoffs",
+        stat="{species}.purge/PB.stat",
+        pb="{species}.purge/PB.base.cov"
+    params:
+        mm2s=setMM2Params
+    threads:
+        80
+    shell:
+        "minimap2 -x {params.mm2s} -t{threads} {input.draft} "
+        " {input.reads} > {output.paf} "
+        "&& pbcstat -O {output.purgeDir} {output.paf} "
+        "&& calcuts {output.stat} > {output.cutoffs}"
+
+rule runPurgeSplit:
+    singularity: assembly_simg
+    input:
+        "{species}.cleaned.fasta"
+    output:
+        temporary("{species}.purge/{species}.purge.fasta.split")
+    shell:
+        "split_fa {input} > {output}"
+
+rule runPurgeSplitMap:
+    singularity: assembly_simg
+    input:
+        "{species}.purge/{species}.purge.fasta.split"
+    output:
+        temporary("{species}.purge/{species}.purge.fasta.split.paf")
+    threads:
+        80
+    shell:
+        "minimap2 -xasm5 -t{threads} -DP {input} {input} > {output}"
+
+rule runPurgePurge:
+    singularity: assembly_simg
+    input:
+        draft="{species}.cleaned.fasta",
+        paf="{species}.purge/{species}.purge.fasta.split.paf",
+        cutoffs="{species}.purge/{species}.cutoffs",
+        pb="{species}.purge/PB.base.cov",
+        purgeDir="{species}.purge"
+    output:
+        purged="{species}.purged.fasta",
+        intervals=temporary("{species}.purge/{species}.dups.bed"),
+        log=temporary("{species}.purge/{species}.purge_dups.log")
+    shell:
+        "cd {input.purgeDir}; "
+        "purge_dups -2 -T ../{input.cutoffs} -c ../{input.pb} ../{input.draft} > "
+        "../{output.intervals} 2> ../{output.log} "
+        " && get_seqs -e ../{output.intervals} ../{input.draft} "
+        " && mv purged.fa ../{output.purged} "
+
+def setMM2Params(wildcards):
+    par = dict()
+    if srExists:
+        return "map-hifi"
+    else:
+        return "map-ont"
+
+rule hapDupMap:
+    singularity: assembly_simg
+    input:
+        unpack(setLrFile),
+        draft="{species}.purged.fasta"
+    output:
+        bam="{species}.hd.mapped.bam"
+    params:
+        mm2s=setMM2Params
+    threads:
+        80
+    shell:
+        "minimap2 -ax {params.mm2s} -t {threads} {input.draft} {input.reads}"
+        " | samtools sort -@{threads} > {output.bam}" 
+
+rule hapDupIdx:
+    singularity: assembly_simg
+    input:
+        bam="{species}.hd.mapped.bam"
+    output:
+        idx="{species}.hd.mapped.bam.bai"
+    threads:
+        80
+    shell:
+        "samtools index -@{threads} {input.bam}" 
+
+def setHDParams(wildcards):
+    par = dict()
+    if srExists:
+        return "hifi"
+    else:
+        return "ont"
+
+rule hapDup:
+    singularity: hapdup_simg
+    input:
+        draft="{species}.purged.fasta",
+        bam="{species}.hd.mapped.bam",
+        idx="{species}.hd.mapped.bam.bai"
+    output:
+        hdir=temporary(directory("{species}.hapdup")),
+        draft1="{species}.hapdup_1.fasta",
+        draft2="{species}.hapdup_2.fasta"
+    params:
+        HDs=setHDParams
+    threads:
+        80
+    shell:
+        "hapdup --assembly {input.draft} --bam {input.bam} --min-aligned-length 1000"
+        " --out-dir {output.hdir} -t {threads} --rtype {params.HDs}"
+        " && cp {output.hdir}/hapdup_dual_1.fasta {output.draft1}"
+        " && cp {output.hdir}/hapdup_dual_2.fasta {output.draft2}"
+        
+rule repeatModeler:
+    singularity: tetools_simg
+    input:
+        "{species}.hapdup_1.fasta"
+    output:
+        consensus="{species}-families.fa",
+        stk="{species}-families.stk"
+    threads:
+        80
+    shell:
+        "BuildDatabase -name {wildcards.species} {input}"
+        " && RepeatModeler -database {wildcards.species}"
+        "    -threads {threads} -LTRStruct"
+
+rule repeatMasker:
+    singularity: tetools_simg
+    input:
+        genome="{species}.hapdup_1.fasta",
+        lib="{species}-families.fa"
+    output:
+        genome="{species}.rm.fasta",
+        gff="{species}.rm.gff"
+    threads:
+        80
+    shell:
+        "RepeatMasker -lib {input.lib} -xsmall -gff -pa {threads} {input.genome}; "
+        "mv {input.genome}.masked {output.genome}; "
+        "mv {input.genome}.out.gff {output.gff}"
+
+if srExists:
+    rule merqurykmer:
+        singularity: assembly_simg
+        input:
+            genome1="{species}.hapdup_1.fasta"
+        output:
+            kmer="{species}.merqury.k"
+        threads:
+            1
+        shell:
+            'best-k.sh $(cat {input.genome1} | grep -v ">" | tr -d "\n" | wc -c)'
+            ' | tail -n1 '
+            " | awk '{{ if($1-int($1) > 0){{print int($1) + 1}} else {{print $1}}}}' "
+            ' > {output.kmer}'
+
+if srExists:
+    rule merquryMeryl1:
+        singularity: assembly_simg
+        input:
+            fwdtrim="{species}_tr_1.fastq",
+            kmer="{species}.merqury.k"
+        output:
+            fwdmeryl=temporary(directory("{species}.1.meryl"))
+        threads:
+            80
+        shell:
+            "meryl k=$(cat {input.kmer}) count threads={threads}"
+            " output {output.fwdmeryl} {input.fwdtrim}"
+
+if srExists:
+    rule merquryMeryl2:
+        singularity: assembly_simg
+        input:
+            revtrim="{species}_tr_2.fastq",
+            kmer="{species}.merqury.k"
+        output:
+            revmeryl=temporary(directory("{species}.2.meryl"))
+        threads:
+            80
+        shell:
+            "meryl k=$(cat {input.kmer}) count threads={threads}"
+            " output {output.revmeryl} {input.revtrim}"
+
+if srExists:
+    rule merquryMerylMerge:
+        singularity: assembly_simg
+        input:
+            fwdmeryl="{species}.1.meryl",
+            revmeryl="{species}.2.meryl"
+        output:
+            meryl=directory("{species}.meryl")
+        threads:
+            80
+        shell:
+            "meryl union-sum threads={threads}"
+            " output {output.meryl} {input.fwdmeryl} {input.revmeryl}"
+
+if srExists:
+    rule merqury:
+        singularity: assembly_simg
+        input:
+            meryl="{species}.meryl",
+            genome1="{species}.hapdup_1.fasta",
+            genome2="{species}.hapdup_2.fasta"
+        output:
+            log="{species}.merqury.log",
+            qvGenome="{species}.merqury.qv",
+            qvHapdup1="{species}.merqury.{species}.hapdup_1.qv",
+            qvHapdup2="{species}.merqury.{species}.hapdup_2.qv",
+            completeness="{species}.merqury.completeness.stats"
+        threads:
+            80
+        shell:
+            "merqury {input.meryl} {input.genome1} {input.genome2}"
+            " {wildcards.species}.merqury > {output.log}"
