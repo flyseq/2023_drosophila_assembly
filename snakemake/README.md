@@ -1,24 +1,47 @@
-## Genome assembly
+## Haploid genome assembly
 
 The genome assembly pipeline is run with a single command:
 
 ```bash
-snakemake --cores $(nproc) --jobs $(nproc) --use-singularity \
-  --rerun--incomplete --config sample="D.melanogaster" \
-  --config fwd="D.melanogaster_R1.fastq.gz" \
-  --config rev="D.melanogaster_R2.fastq.gz"
+snakemake --cores $(nproc) --jobs $(nproc) --use-singularity --singularity-args ' --nv' \
+  --config sample="D.melanogaster" fwd="D.melanogaster_R1.fastq.gz" rev="D.melanogaster_R2.fastq.gz" \
+  --rerun-incomplete D.melanogaster.flye.fasta
 ```
 
-The Snakemake workflow makes some assumptions about the directory structure and 
+Before the assembly can be run this way, some initial setup is needed. The Snakemake workflow
+is guided by the `Snakemake` file and the `config.yaml` configuration file. The following things should be
+set up and defined correctly in the config file:
 
-###
+* Download/build Singularity images, and add paths to configfile:
+  + Genome assembly image
+  + NCBI fcs-adaptor (https://github.com/ncbi/fcs/wiki/FCS-adaptor)
+  + NCBI fcsgx (https://github.com/ncbi/fcs/wiki/FCS-GX)
+  + TETools (`singularity build tetools.simg docker://dfam/tetools:latest`)
+  + NVIDIA Parabricks (`singularity build parabricks.simg docker://nvcr.io/nvidia/clara/clara-parabricks:4.1.2-1`)
 
+* Set up NCBI Foreign Contamination Screen
+  + Download database, instructions at https://github.com/ncbi/fcs
+  + Know what NCBI Taxonomy ID characterizes your organism
+
+* Set Guppy/Medaka [models](https://github.com/epi2me-labs/wf-bacterial-genomes/blob/master/data/medaka_models.tsv)
+  + Some Guppy models:
+     - R9.4.1: `dna_r9.4.1_450bps_sup.cfg`
+     - R10.4.1 400bps: `dna_r10.4.1_e8.2_400bps_sup.cfg`
+     - R10.4.1 400bps 5khz: `dna_r10.4.1_e8.2_400bps_5khz_sup.cfg`
+  + Some Medaka models:
+     - R9.4.1: `r941_min_sup_g507`
+     - R10.4.1: `r1041_e82_400bps_sup_v4.1.0`
+     - R10.4.1 400bps 5khz: `r1041_e82_400bps_sup_v4.2.0`
+
+* There are a few other extra settings/flags that can be set in `config.yaml`.
 
 ### Input files
-For each genome assembly sample (`${sample}`), the following data are expected in the same working 
-directory as the `Snakefile`:
-* Nanopore raw data (`./${sample}/` folder containing fast5/pod5 files) *or*  gzipped basecalls (`${sample}.fastq.gz`)
+For each genome assembly, the following data are expected:
+* Nanopore raw data (`./{sample}/` folder containing fast5/pod5 files) *or*  gzipped basecalls (`${sample}.fastq.gz`)
 * Illumina paired-end reads (`${sample}_R1.fastq.gz`,`${sample}_R2.fastq.gz`)
+
+This information is passed to Snakemake through 
+`--config sample="D.melanogaster" fwd="D.melanogaster_R1.fastq.gz" rev="D.melanogaster_R2.fastq.gz"`
 
 ### Output files  
 * output soft-masked genome: `{species}.rm.fasta`  
