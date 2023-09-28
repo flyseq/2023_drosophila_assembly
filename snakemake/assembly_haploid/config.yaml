@@ -1,14 +1,15 @@
 # paths to singularity images
 singularity_images:
   assembly: "singularity_images/assembly.simg"
-  fcsadaptor: "singularity_images/fcs-adaptor.simg"
-  fcsgx: "singularity_images/fcsgx.simg"
+  fcsadaptor: "singularity_images/fcs-adaptor.sif"
+  fcsgx: "singularity_images/fcsgx.sif"
   tetools: "singularity_images/tetools.simg"
   parabricks: "singularity_images/parabricks.simg"
+  pmd: "singularity_images/deepvariant.simg"
 
 # NCBI FCS settings
 fcs:
-  fcsdir: "/media/bernardkim/working-2/fcs" #FCS database
+  fcsdir: "/media/bernardkim/working-2/fcs/gxdb/all" #FCS database
   taxid: "7214"    # taxid for Drosophilidae (expected seqs)
 
 # Nanopore settings
@@ -21,3 +22,11 @@ nanopore:
 flye:
   reads: "--nano-raw"
   flags: "--scaffold --no-alt-contigs"
+
+# Pepper-Margin-DeepVariant model
+# --ont_r9_guppy5_sup
+# --ont_r10_q20
+pmd:
+  model: "--ont_r9_guppy5_sup"
+  minGQ: "6"
+  minDP: "10"

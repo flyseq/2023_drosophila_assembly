@@ -2,6 +2,50 @@
 configfile: "config.yaml"
 print (config)
 
+# check if Illumina reads are provided
+illumExists = ([x in config.keys() for x in ['fwd','rev']].count(True) == 2)
+
+# rule all - two different ones with Illumina and without
+if illumExists:
+  rule all:
+    input:
+        reads=expand("{sample}.fastq.gz",sample=config['sample']),
+        flyeAssm=expand("{sample}.flye.fasta",sample=config['sample']),
+        cleanedAssm=expand("{sample}.cleaned.fasta",sample=config['sample']),
+        contamAssm=expand("{sample}.contam.fasta",sample=config['sample']),
+        fcsReport=expand("{sample}.fcs.report",sample=config['sample']),
+        merqQV=expand("{sample}.merqury.qv",sample=config['sample']),
+        merqQVg=expand("{sample}.merqury.genome.qv",sample=config['sample']),
+        merqComp=expand("{sample}.merqury.completeness.stats",sample=config['sample']),
+        yak=expand("{sample}.yak.out",sample=config['sample']),
+        pmdVCF=expand("{sample}.vcf.gz",sample=config['sample']),
+        pmdVCFidx=expand("{sample}.vcf.gz.tbi",sample=config['sample']),
+        pmdGVCF=expand("{sample}.g.vcf.gz",sample=config['sample']),
+        pmdGVCFidx=expand("{sample}.g.vcf.gz.tbi",sample=config['sample']),
+        pmdQV=expand("{sample}.PMDqv.out",sample=config['sample']),
+        consensus=expand("{sample}-families.fa",sample=config['sample']),
+        stk=expand("{sample}-families.stk",sample=config['sample']),
+        genome=expand("{sample}.rm.fasta",sample=config['sample']),
+        gff=expand("{sample}.rm.gff",sample=config['sample'])
+else:
+  rule all:
+    input:
+        reads=expand("{sample}.fastq.gz",sample=config['sample']),
+        flyeAssm=expand("{sample}.flye.fasta",sample=config['sample']),
+        cleanedAssm=expand("{sample}.cleaned.fasta",sample=config['sample']),
+        contamAssm=expand("{sample}.contam.fasta",sample=config['sample']),
+        fcsReport=expand("{sample}.fcs.report",sample=config['sample']),
+        merqQV=expand("{sample}.merqury.qv",sample=config['sample']),
+        pmdVCF=expand("{sample}.vcf.gz",sample=config['sample']),
+        pmdVCFidx=expand("{sample}.vcf.gz.tbi",sample=config['sample']),
+        pmdGVCF=expand("{sample}.g.vcf.gz",sample=config['sample']),
+        pmdGVCFidx=expand("{sample}.g.vcf.gz.tbi",sample=config['sample']),
+        pmdQV=expand("{sample}.PMDqv.out",sample=config['sample']),
+        consensus=expand("{sample}-families.fa",sample=config['sample']),
+        stk=expand("{sample}-families.stk",sample=config['sample']),
+        genome=expand("{sample}.rm.fasta",sample=config['sample']),
+        gff=expand("{sample}.rm.gff",sample=config['sample'])
+
 # check if basecalls already exist, if not then basecall with Guppy
 if os.path.exists(config['sample']) \
    and not os.path.exists('{}.fastq.gz'.format(config['sample'])):
@@ -149,7 +193,9 @@ rule runMedakaStitch:
     shell:
         "medaka stitch {input.hdf} {input.draft} {output}"
 
-rule trim_adapter:
+# if Illumina reads exist, trim adapters
+if illumExists:
+  rule trim_adapter:
     singularity: config['singularity_images']['assembly']
     input:
         fwd=config['fwd'],
@@ -182,7 +228,10 @@ rule indexMedaka:
     shell:
         "bwa index {input}"
 
-rule mapPilonPaired:
+# If Illumina reads exist, map paired reads
+# Parabricks automatically marks duplicates
+if illumExists:
+  rule mapPilonPaired:
     singularity: config['singularity_images']['parabricks']
     input:
         fa="{sample}.medaka.fasta",
@@ -201,7 +250,10 @@ rule mapPilonPaired:
         "pbrun fq2bam --ref {input.fa} --in-fq {input.fwdtrim} {input.revtrim}"
         " --out-bam {output}"
 
-rule mapPilonSingle:
+# If Illumina reads exist, map single reads
+# Parabricks automatically marks duplicates
+if illumExists:
+  rule mapPilonSingle:
     singularity: config['singularity_images']['parabricks']
     input:
         fa="{sample}.medaka.fasta",
@@ -219,7 +271,9 @@ rule mapPilonSingle:
         "pbrun fq2bam --ref {input.fa} --in-se-fq {input.unptrim}"
         " --out-bam {output}"
 
-rule merge_bams:
+# If Illumina reads exist, merge single and paired BAM
+if illumExists:
+  rule merge_bams:
     singularity: config['singularity_images']['assembly']
     input:
         paired="{sample}_paired.bam",
@@ -231,7 +285,9 @@ rule merge_bams:
     shell:
         "sambamba merge -t {threads} -p {output} {input}"
 
-rule runPilon:
+#If Illumina reads exist, run Pilon
+if illumExists:
+  rule runPilon:
     singularity: config['singularity_images']['assembly']
     input:
         draft="{sample}.medaka.fasta",
@@ -253,92 +309,269 @@ rule runPilon:
         " && /tools/bbmap/reformat.sh in=tmp.fa out={output.pilon} minlength=10"
         " && rm tmp.fa"
 
-# rule runFCSadaptor:
-#     input:
-#         "{sample}.pilon.fasta"
-#     output:
-#         draft="{sample}.fcs-adaptor.fasta",
-#         outDir=directory("{sample}_fcs-adaptor")
-#     params:
-#         simg=config['singularity_images']['fcsadaptor']
-#     shell:
-#         "mkdir -p {output.outDir}; "
-#         "singularity exec {params.simg}"
-#         "    /app/fcs/bin/av_screen_x -o {output.outDir} --euk {input}"
-#         " && cp {output.outDir}/cleaned_sequences/{input} {output.draft}"
+# If Illumina reads don't exist, temporarily sub Medaka file for Pilon file
+if not illumExists:
+  rule runPilon:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.medaka.fasta",
+    output:
+        pilon=temporary("{sample}.pilon.fasta")
+    threads:
+        1
+    shell:
+        "/tools/bbmap/reformat.sh in={input.draft} out={output.pilon} minlength=10"
 
-# rule runFCSgx:
-#     input:
-#         "{sample}.fcs-adaptor.fasta"
-#     output:
-#         outDir=directory("{sample}_fcsgx"),
-#         fcsFile="{sample}_fcsgx/{sample}.fcs-adaptor." + ncbi_taxid + ".fcs_gx_report.txt"
-#     params:
-#         simg=config['singularity_images']['fcsgx'],
-#         shm=shm_loc,
-#         gxdb=gxdb_loc,
-#         taxid=ncbi_taxid
-#     shell:
-#         "SHM_LOC={params.shm}; "
-#         'mkdir -p "${{SHM_LOC}}/gxdb"; '
-#         "mkdir -p {output.outDir}; "
-#         "[ ! -f run_fcsgx.py ] && wget https://raw.githubusercontent.com/ncbi/fcs/v0.3.0/dist/run_fcsgx.py; "
-#         "python3 ./run_fcsgx.py --fasta {input} --out-dir {output.outDir}"
-#         ' --gx-db "${{SHM_LOC}}/gxdb/all" --gx-db-disk {params.gxdb}'
-#         " --split-fasta --tax-id {params.taxid} "
-#         " --container-engine singularity --image={params.simg}"
+# remove sequencing adapter contamination
+rule runFCSadaptor:
+    input:
+        "{sample}.pilon.fasta"
+    output:
+        draft=temporary("{sample}.fcs-adaptor.fasta"),
+        outDir=temporary(directory("{sample}_fcs-adaptor"))
+    params:
+        simg=config['singularity_images']['fcsadaptor']
+    shell:
+        "mkdir -p {output.outDir}; "
+        "singularity exec {params.simg}"
+        "    /app/fcs/bin/av_screen_x -o {output.outDir} --euk {input}"
+        " && cp {output.outDir}/cleaned_sequences/{input} {output.draft}"
 
-# rule removeContam:
-#     singularity: config['singularity_images']['assembly']
-#     input:
-#         fcsdir="{sample}_fcsgx",
-#         fcsfile="{sample}_fcsgx/{sample}.fcs-adaptor." + ncbi_taxid + ".fcs_gx_report.txt",
-#         draft="{sample}.fcs-adaptor.fasta"
-#     output:
-#         genomeBed="{sample}.genome.bed",
-#         contamBed="{sample}.contam.bed",
-#         keepBed="{sample}.keep.bed",
-#         genome="{sample}.cleaned.fasta"
-#     threads:
-#         1
-#     shell:
-#         "(samtools faidx {input.draft} --fai-idx -"
-#         """ | awk '{{print $1"\\t"0"\\t"$2}}' """
-#         " > {output.genomeBed} )"
-#         ' && (cat {input.fcsfile} | grep -v "^#" '
-#         """ | awk '{{print $1"\\t"$2-1"\\t"$3}}' > {output.contamBed} ) || true"""
-#         " && if [ -s {output.contamBed} ]; then "
-#         " bedtools subtract -a {output.genomeBed} -b {output.contamBed} > {output.keepBed};"
-#         " else cat {output.genomeBed} > {output.keepBed}; fi "
-#         " && bedtools getfasta -fi {input.draft} -bed {output.keepBed}"
-#         """ | awk '/^>/{{print ">contig_" ++i; next}}{{print}}' """
-#         " > {output.genome}"
-        
-# rule repeatModeler:
-#     input:
-#         "{sample}.cleaned.fasta"
-#     output:
-#         consensus="{sample}-families.fa",
-#         stk="{sample}-families.stk"
-#     threads:
-#         80
-#     singularity: config['singularity_images']['tetools']
-#     shell:
-#         "BuildDatabase -name {wildcards.species} {input}"
-#         " && RepeatModeler -database {wildcards.species}"
-#         "    -pa {threads} -LTRStruct"
+# tag contaminant sequence
+rule runFCSgx:
+    input:
+        "{sample}.fcs-adaptor.fasta"
+    output:
+        outDir=temporary(directory("{sample}_fcsgx")),
+        fcsFile="{sample}_fcsgx/{sample}.fcs-adaptor." + config['fcs']['taxid'] + ".fcs_gx_report.txt"
+    params:
+        simg=config['singularity_images']['fcsgx'],
+        gxdb=config['fcs']['fcsdir'],
+        taxid=config['fcs']['taxid']
+    shell:
+        "mkdir -p {output.outDir}; "
+        'export FCS_DEFAULT_IMAGE="{params.simg}"; '
+        "[ ! -f fcs.py ] && wget https://raw.githubusercontent.com/ncbi/fcs/v0.4.0/dist/fcs.py; "
+        "python3 ./fcs.py screen genome --fasta {input}"
+        ' --out-dir {output.outDir} --gx-db "{params.gxdb}"'
+        " --tax-id {params.taxid}"
 
-# rule repeatMasker:
-#     input:
-#         genome="{sample}.cleaned.fasta",
-#         lib="{sample}-families.fa"
-#     output:
-#         genome="{sample}.rm.fasta",
-#         gff="{sample}.rm.gff"
-#     threads:
-#         80
-#     singularity: config['singularity_images']['tetools']
-#     shell:
-#         "RepeatMasker -lib {input.lib} -xsmall -gff -pa {threads} {input.genome}; "
-#         "mv {input.genome}.masked {output.genome}; "
-#         "mv {input.genome}.out.gff {output.gff}"
+# remove contamination from genome
+rule removeContam:
+    input:
+        fcsdir="{sample}_fcsgx",
+        fcsfile="{sample}_fcsgx/{sample}.fcs-adaptor." + config['fcs']['taxid'] + ".fcs_gx_report.txt",
+        draft="{sample}.fcs-adaptor.fasta"
+    output:
+        genome="{sample}.cleaned.fasta",
+        contam="{sample}.contam.fasta",
+        report="{sample}.fcs.report"
+    threads:
+        1
+    shell:
+        "cat {input.draft}"
+        " | python3 ./fcs.py clean genome --action-report {input.fcsfile}"
+        "     --output {output.genome} --contam-fasta-out {wildcards.sample}.tmp.fa; "
+        """awk '/^>/{{print ">contig_" ++i; next}}{{print}}' {wildcards.sample}.tmp.fa > {output.contam};"""
+        "cp {input.fcsfile} {output.report}"
+
+# If Illumina reads exist, evaluate QV with Yak
+if illumExists:
+  rule yak:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.cleaned.fasta",
+        fwdtrim="{sample}_tr_1.fastq",
+        revtrim="{sample}_tr_2.fastq"
+    output:
+        yakdb=temporary("{sample}.sr.yak"),
+        yakqv="{sample}.yak.out"
+    params:
+        kmer="21"
+    threads:
+        80
+    shell:
+        "yak count -t {threads} -k{params.kmer} -o {output.yakdb}"
+        " <(cat {input.fwdtrim} {input.revtrim}) <(cat {input.fwdtrim} {input.revtrim});"
+        "yak qv -t {threads} {output.yakdb} {input.draft} > {output.yakqv}"
+
+# If Illumina reads exist, evaluate QV with Merqury - compute optimal kmer size
+if illumExists:
+    rule merqurykmer:
+        singularity: config['singularity_images']['assembly']
+        input:
+            genome1="{sample}.cleaned.fasta"
+        output:
+            kmer=temporary("{sample}.merqury.k")
+        threads:
+            1
+        shell:
+            'best-k.sh $(cat {input.genome1} | grep -v ">" | tr -d "\n" | wc -c)'
+            ' | tail -n1 '
+            " | awk '{{ if($1-int($1) > 0){{print int($1) + 1}} else {{print $1}}}}' "
+            ' > {output.kmer}'
+
+# If Illumina reads exist, evaluate QV with Merqury - make Meryl DB for fwd
+if illumExists:
+    rule merquryMeryl1:
+        singularity: config['singularity_images']['assembly']
+        input:
+            fwdtrim="{sample}_tr_1.fastq",
+            kmer="{sample}.merqury.k"
+        output:
+            fwdmeryl=temporary(directory("{sample}.1.meryl"))
+        threads:
+            80
+        shell:
+            "meryl k=$(cat {input.kmer}) count threads={threads}"
+            " output {output.fwdmeryl} {input.fwdtrim}"
+
+# If Illumina reads exist, evaluate QV with Merqury - make Meryl DB for rev
+if illumExists:
+    rule merquryMeryl2:
+        singularity: config['singularity_images']['assembly']
+        input:
+            revtrim="{sample}_tr_2.fastq",
+            kmer="{sample}.merqury.k"
+        output:
+            revmeryl=temporary(directory("{sample}.2.meryl"))
+        threads:
+            80
+        shell:
+            "meryl k=$(cat {input.kmer}) count threads={threads}"
+            " output {output.revmeryl} {input.revtrim}"
+
+# If Illumina reads exist, evaluate QV with Merqury - merge fwd and rev Meryl DBs
+if illumExists:
+    rule merquryMerylMerge:
+        singularity: config['singularity_images']['assembly']
+        input:
+            fwdmeryl="{sample}.1.meryl",
+            revmeryl="{sample}.2.meryl"
+        output:
+            meryl=temporary(directory("{sample}.meryl"))
+        threads:
+            80
+        shell:
+            "meryl union-sum threads={threads}"
+            " output {output.meryl} {input.fwdmeryl} {input.revmeryl}"
+
+# If Illumina reads exist, evaluate QV with Merqury - compute QV
+if illumExists:
+    rule merqury:
+        singularity: config['singularity_images']['assembly']
+        input:
+            meryl="{sample}.meryl",
+            genome="{sample}.cleaned.fasta"
+        output:
+            log="{sample}.merqury.log",
+            qvGenome="{sample}.merqury.qv",
+            qv1=temporary("{sample}.merqury.{sample}.cleaned.qv"),
+            qv="{sample}.merqury.genome.qv",
+            completeness="{sample}.merqury.completeness.stats"
+        threads:
+            80
+        shell:
+            "merqury {input.meryl} {input.genome}"
+            " {wildcards.sample}.merqury > {output.log}; "
+            "cp {output.qv1} {output.qv}"
+
+# Map Nanopore reads to draft for Pepper-Margin-Deepvariant
+rule pmdAlign:
+    singularity: config['singularity_images']['assembly']
+    input:
+        genome="{sample}.cleaned.fasta",
+        reads="{sample}.fastq.gz"
+    output:
+        bam=temporary("{sample}.reads_to_draft_PMD.bam"),
+        bai=temporary("{sample}.reads_to_draft_PMD.bam.bai")
+    threads:
+        80
+    shell:
+        "minimap2 -ax map-ont -t{threads} {input.genome} {input.reads} "
+        " | samtools sort -@{threads} -o {output.bam}; "
+        "samtools index -@{threads} {output.bam}"
+
+# Variant call with Pepper-Margin-Deepvariant
+rule pmdCall:
+    singularity: config['singularity_images']['pmd']
+    input:
+        genome="{sample}.cleaned.fasta",
+        reads="{sample}.fastq.gz",
+        bam="{sample}.reads_to_draft_PMD.bam",
+        bai="{sample}.reads_to_draft_PMD.bam.bai"
+    output:
+        pmdFold=temporary("{sample}.PMD"),
+        pmdVCF="{sample}.vcf.gz",
+        pmdVCFidx="{sample}.vcf.gz.tbi",
+        pmdGVCF="{sample}.g.vcf.gz",
+        pmdGVCFidx="{sample}.g.vcf.gz.tbi"
+    params:
+        model=config['pmd']['model']
+    threads:
+        80
+    shell:
+        "run_pepper_margin_deepvariant call_variant"
+        " -b {input.bam} -f {input.genome} -o {output.pmdFold}"
+        " -p {wildcards.sample} -t {threads} -g {params.model} --gvcf; "
+        "cp {output.pmdFold}/{output.pmdVCF} {output.pmdVCF}; "
+        "cp {output.pmdFold}/{output.pmdVCFidx} {output.pmdVCFidx}; "
+        "cp {output.pmdFold}/{output.pmdGVCF} {output.pmdGVCF}; "
+        "cp {output.pmdFold}/{output.pmdGVCFidx} {output.pmdGVCFidx}"
+
+# Compute genome QV from long-read G/VCFs
+rule pmdQV:
+    singularity: config['singularity_images']['assembly']
+    input:
+        pmdVCF="{sample}.vcf.gz",
+        pmdVCFidx="{sample}.vcf.gz.tbi",
+        pmdGVCF="{sample}.g.vcf.gz",
+        pmdGVCFidx="{sample}.g.vcf.gz.tbi"
+    output:
+        pmdQV="{sample}.PMDqv.out"
+    params:
+        minDP=config['pmd']['minDP'],
+        minGQ=config['pmd']['minGQ']
+    threads:
+        8
+    shell:
+        "total=$(bcftools view -i'FMT/GQ>=10 && FMT/MIN_DP>=6' {input.pmdGVCF}"
+        """      | grep -v "^#" |  sed 's/END=//' """
+        """      | awk -F"\t" '{{a+=($8-$2+1)}}END{{print a}}'); """
+        "homDer=$(bcftools view -i'FMT/GQ>=10 && FMT/DP>=6' D.melanogaster.vcf.gz"
+        ' | grep "1/1" | wc -l); '
+        'errRate=$(echo "scale=10; $homDer / $total" | bc); '
+        'QV=$(echo "scale=4; -10 * l($errRate)/l(10)" | bc -l); '
+        'echo "total callable bases: $total" > output.pmdQV; '
+        'echo "total hom. derived: $homDer" >> output.pmdQV; '
+        'echo "error rate: $errRate" >> output.pmdQV; '
+        'echo "QV: $QV" >> output.pmdQV; '
+
+rule repeatModeler:
+    input:
+        "{sample}.cleaned.fasta"
+    output:
+        consensus="{sample}-families.fa",
+        stk="{sample}-families.stk"
+    threads:
+        80
+    singularity: config['singularity_images']['tetools']
+    shell:
+        "BuildDatabase -name {wildcards.sample} {input}"
+        " && RepeatModeler -database {wildcards.sample}"
+        "    -threads {threads} -LTRStruct"
+
+rule repeatMasker:
+    input:
+        genome="{sample}.cleaned.fasta",
+        lib="{sample}-families.fa"
+    output:
+        genome="{sample}.rm.fasta",
+        gff="{sample}.rm.gff"
+    threads:
+        80
+    singularity: config['singularity_images']['tetools']
+    shell:
+        "RepeatMasker -lib {input.lib} -xsmall -gff -pa {threads} {input.genome}; "
+        "mv {input.genome}.masked {output.genome}; "
+        "mv {input.genome}.out.gff {output.gff}"

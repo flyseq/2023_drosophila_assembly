@@ -65,7 +65,6 @@ RUN rm -r git-lfs*
 
 RUN git clone --recursive https://github.com/nanoporetech/medaka.git \
  && cd medaka \
- && pip3 install "urllib3<=1.26.15" \
  && pip3 install -r requirements.txt \
  && make -j install \
  && python3 setup.py install
@@ -138,10 +137,10 @@ download/v2.3.1/seqkit_linux_amd64.tar.gz \
 
 # install Dorado
 RUN cd /tools \
- && wget -q https://cdn.oxfordnanoportal.com/software/analysis/dorado-0.3.3-linux-x64.tar.gz \
- && tar zxf dorado-0.3.3-linux-x64.tar.gz \
- && rm dorado-0.3.3-linux-x64.tar.gz \
- && ln -sf /tools/dorado-0.3.3-linux-x64/bin/dorado /usr/local/bin/
+ && wget -q https://cdn.oxfordnanoportal.com/software/analysis/dorado-0.3.4-linux-x64.tar.gz \
+ && tar zxf dorado-0.3.4-linux-x64.tar.gz \
+ && rm dorado-0.3.4-linux-x64.tar.gz \
+ && ln -sf /tools/dorado-0.3.4-linux-x64/bin/dorado /usr/local/bin/
 
 # install guppy duplex
 RUN pip install ont-guppy-duplex-pipeline
@@ -173,3 +172,16 @@ RUN cd /tools \
  && ln -s /tools/merqury-1.3/best_k.sh /usr/local/bin/best-k.sh
 
 ENV MERQURY="/tools/merqury-1.3"
+
+# install yak
+RUN cd /tools \
+ && git clone https://github.com/lh3/yak \
+ && cd yak \
+ && make -j \
+ && ln -s /tools/yak/yak /usr/local/bin/yak
+
+# install Rerio
+RUN cd /tools \
+ && git clone https://github.com/nanoporetech/rerio \
+ && cd rerio \
+ && ln -s /tools/rerio/download_model.py /usr/local/bin/
