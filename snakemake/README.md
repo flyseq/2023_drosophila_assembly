@@ -1,14 +1,29 @@
-## Assembly
+## Genome assembly
 
-### Directory structure
-Nanopore raw data directory or basecalls and paired-end short reads are expected as input. Data are expected to be basecalled with Guppy 6.2.1 SUP although this is modifiable in the Snakefile.  
-  
-Nanopore: raw data in `./{species}` *or* basecalls as `{species}.passReads.guppy621.fastq.gz`  
-Illumina: `./{species}_1.fastq.gz` `./{species}_2.fastq.gz`  
-  
-output soft-masked genome: `{species}.rm.fasta`  
-repeat library: `{species}-families.fa`  
-repeat tracks: `{species}.out.gff`  
+The genome assembly pipeline is run with a single command:
+
+```bash
+snakemake --cores $(nproc) --jobs $(nproc) --use-singularity \
+  --rerun--incomplete --config sample="D.melanogaster" \
+  --config fwd="D.melanogaster_R1.fastq.gz" \
+  --config rev="D.melanogaster_R2.fastq.gz"
+```
+
+The Snakemake workflow makes some assumptions about the directory structure and 
+
+###
+
+
+### Input files
+For each genome assembly sample (`${sample}`), the following data are expected in the same working 
+directory as the `Snakefile`:
+* Nanopore raw data (`./${sample}/` folder containing fast5/pod5 files) *or*  gzipped basecalls (`${sample}.fastq.gz`)
+* Illumina paired-end reads (`${sample}_R1.fastq.gz`,`${sample}_R2.fastq.gz`)
+
+### Output files  
+* output soft-masked genome: `{species}.rm.fasta`  
+* repeat library: `{species}-families.fa`  
+* repeat tracks: `{species}.out.gff`  
 
 ### Sherlock cmd
 ```bash
