@@ -1,0 +1,23 @@
+# paths to singularity images
+singularity_images:
+  assembly: "singularity_images/assembly.simg"
+  fcsadaptor: "singularity_images/fcs-adaptor.simg"
+  fcsgx: "singularity_images/fcsgx.simg"
+  tetools: "singularity_images/tetools.simg"
+  parabricks: "singularity_images/parabricks.simg"
+
+# NCBI FCS settings
+fcs:
+  fcsdir: "/media/bernardkim/working-2/fcs" #FCS database
+  taxid: "7214"    # taxid for Drosophilidae (expected seqs)
+
+# Nanopore settings
+nanopore:
+  guppy_mod: "dna_r9.4.1_450bps_fast.cfg"
+  medaka_mod: "r941_min_fast_g507"
+  min_qscore: "10"
+
+# Flye assembler settings
+flye:
+  reads: "--nano-raw"
+  flags: "--scaffold --no-alt-contigs"

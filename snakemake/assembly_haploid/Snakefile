@@ -1,0 +1,344 @@
+# read assembly settings from config file
+configfile: "config.yaml"
+print (config)
+
+# check if basecalls already exist, if not then basecall with Guppy
+if os.path.exists(config['sample']) \
+   and not os.path.exists('{}.fastq.gz'.format(config['sample'])):
+    rule runGuppy:
+        singularity: config['singularity_images']['assembly']
+        input:
+            directory("{sample}")
+        output:
+            "{sample}.fastq.gz"
+        threads:
+            80
+        shell:
+            'resume=""; [ -d "{wildcards.sample}.basecalled" ] && resume="--resume"; '
+            "guppy_basecaller -i {input}"
+            " -s {wildcards.sample}.basecalled --recursive"
+            " --config {config[nanopore][guppy_mod]} --min_qscore {config[nanopore][min_qscore]}"
+            ' --device "cuda:all"'
+            " --trim_strategy dna --calib_detect ${{resume}}"
+            " && cat {wildcards.sample}.basecalled/pass/*.fastq"
+            " | pigz -p{threads}"
+            " > {output}"
+
+# initial draft assembly with Flye
+rule runFlye:
+    singularity: config['singularity_images']['assembly']
+    input:
+        "{sample}.fastq.gz"
+    output:
+        draft="{sample}.flye.fasta",
+        flyeDir=temporary(directory("{sample}.flye"))
+    threads:
+        80
+    shell:
+        'resume=""; [ -d "{output.flyeDir}" ] && resume="--resume"; '
+        "flye {config[flye][reads]} {input} --threads {threads} "
+        "--out-dir {output.flyeDir} {config[flye][flags]} ${{resume}}"
+        "&& cp {output.flyeDir}/assembly.fasta {output.draft}"
+
+# purge_dups step 1
+rule runPurgeMap:
+    singularity: config['singularity_images']['assembly']
+    input:
+        reads="{sample}.fastq.gz",
+        draft="{sample}.flye.fasta"
+    output:
+        purgeDir=temporary(directory("{sample}.purge")),
+        paf=temporary("{sample}.purge/{sample}.paf"),
+        cutoffs=temporary("{sample}.purge/{sample}.cutoffs"),
+        stat=temporary("{sample}.purge/PB.stat"),
+        pb=temporary("{sample}.purge/PB.base.cov")
+    threads:
+        80
+    shell:
+        "minimap2 -x map-ont -t{threads} {input.draft} "
+        " {input.reads} > {output.paf} "
+        "&& pbcstat -O {output.purgeDir} {output.paf} "
+        "&& calcuts {output.stat} > {output.cutoffs}"
+
+# purge_dups step 2
+rule runPurgeSplit:
+    singularity: config['singularity_images']['assembly']
+    input:
+        "{sample}.flye.fasta"
+    output:
+        temporary("{sample}.purge/{sample}.flye.fasta.split")
+    shell:
+        "split_fa {input} > {output}"
+
+# purge_dups step 3
+rule runPurgeSplitMap:
+    singularity: config['singularity_images']['assembly']
+    input:
+        "{sample}.purge/{sample}.flye.fasta.split"
+    output:
+        temporary("{sample}.purge/{sample}.flye.fasta.split.paf")
+    threads:
+        80
+    shell:
+        "minimap2 -xasm5 -t{threads} -DP {input} {input} > {output}"
+
+# purge_dups step 4
+rule runPurgePurge:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.flye.fasta",
+        paf="{sample}.purge/{sample}.flye.fasta.split.paf",
+        cutoffs="{sample}.purge/{sample}.cutoffs",
+        pb="{sample}.purge/PB.base.cov",
+        purgeDir="{sample}.purge",
+        stat="{sample}.purge/PB.stat",
+    output:
+        purged="{sample}.purged.fasta",
+        intervals=temporary("{sample}.purge/{sample}.dups.bed"),
+        log=temporary("{sample}.purge/{sample}.purge_dups.log")
+    shell:
+        "cd {input.purgeDir}; "
+        "purge_dups -2 -T ../{input.cutoffs} -c ../{input.pb} ../{input.draft} > "
+        "../{output.intervals} 2> ../{output.log} "
+        " && get_seqs -e ../{output.intervals} ../{input.draft} "
+        " && mv purged.fa ../{output.purged} "
+
+# medaka polishing step 1
+rule runMedakaAlign:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.purged.fasta",
+        reads="{sample}.fastq.gz"
+    output:
+        bam=temporary("{sample}.calls_to_draft.bam"),
+        bai=temporary("{sample}.calls_to_draft.bam.bai")
+    threads:
+        80
+    shell:
+        "mini_align -i {input.reads} -r {input.draft} -P -m "
+        " -p {wildcards.sample}.calls_to_draft -t {threads}"
+
+# medaka polishing step 2
+rule runMedakaConsensus:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.purged.fasta",
+        bam="{sample}.calls_to_draft.bam",
+        bai="{sample}.calls_to_draft.bam.bai",
+    output:
+        temporary("{sample}.hdf")
+    threads:
+        4
+    params:
+        mod = config['nanopore']['medaka_mod']
+    shell:
+        '[ -f "{output}" ] && rm {output}; '
+        "medaka consensus {input.bam} {output} "
+        " --model {params.mod} --threads {threads}"
+
+# medaka polishing step 3
+rule runMedakaStitch:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.purged.fasta",
+        hdf="{sample}.hdf"
+    output:
+        "{sample}.medaka.fasta"
+    threads:
+        80
+    shell:
+        "medaka stitch {input.hdf} {input.draft} {output}"
+
+rule trim_adapter:
+    singularity: config['singularity_images']['assembly']
+    input:
+        fwd=config['fwd'],
+        rev=config['rev']
+    output:
+        out1=temporary("{sample}_tr_1.fastq"),
+        out2=temporary("{sample}_tr_2.fastq"),
+        outs=temporary("{sample}_tr_unpaired.fastq")
+    threads:
+        80
+    shell:
+        "/tools/bbmap/bbduk.sh "
+        "in={input.fwd} in2={input.rev} "
+        "out1={output.out1} out2={output.out2} outs={output.outs} "
+        "ref=/tools/bbmap/resources/adapters.fa,kapa "
+        "threads={threads} ktrim=r k=23 mink=11 hdist=1 ftm=5 tpe tbo"
+
+rule indexMedaka:
+    singularity: config['singularity_images']['assembly']
+    input: 
+        "{sample}.medaka.fasta"
+    output:
+        temporary("{sample}.medaka.fasta.amb"),
+        temporary("{sample}.medaka.fasta.ann"),
+        temporary("{sample}.medaka.fasta.bwt"),
+        temporary("{sample}.medaka.fasta.pac"),
+        temporary("{sample}.medaka.fasta.sa")
+    threads: 
+        1
+    shell:
+        "bwa index {input}"
+
+rule mapPilonPaired:
+    singularity: config['singularity_images']['parabricks']
+    input:
+        fa="{sample}.medaka.fasta",
+        fwdtrim="{sample}_tr_1.fastq",
+        revtrim="{sample}_tr_2.fastq",
+        medamb = "{sample}.medaka.fasta.amb",
+        medann = "{sample}.medaka.fasta.ann",
+        medbwt = "{sample}.medaka.fasta.bwt",
+        medpac = "{sample}.medaka.fasta.pac",
+        medsa = "{sample}.medaka.fasta.sa"
+    output:
+        temporary("{sample}_paired.bam")
+    threads:
+        80
+    shell:
+        "pbrun fq2bam --ref {input.fa} --in-fq {input.fwdtrim} {input.revtrim}"
+        " --out-bam {output}"
+
+rule mapPilonSingle:
+    singularity: config['singularity_images']['parabricks']
+    input:
+        fa="{sample}.medaka.fasta",
+        unptrim="{sample}_tr_unpaired.fastq",
+        medamb = "{sample}.medaka.fasta.amb",
+        medann = "{sample}.medaka.fasta.ann",
+        medbwt = "{sample}.medaka.fasta.bwt",
+        medpac = "{sample}.medaka.fasta.pac",
+        medsa = "{sample}.medaka.fasta.sa"
+    output:
+        temporary("{sample}_unpaired.bam")
+    threads:
+        80
+    shell:
+        "pbrun fq2bam --ref {input.fa} --in-se-fq {input.unptrim}"
+        " --out-bam {output}"
+
+rule merge_bams:
+    singularity: config['singularity_images']['assembly']
+    input:
+        paired="{sample}_paired.bam",
+        unpaired="{sample}_unpaired.bam"
+    output:
+        temporary("{sample}.pilon.bam")
+    threads:
+        80
+    shell:
+        "sambamba merge -t {threads} -p {output} {input}"
+
+rule runPilon:
+    singularity: config['singularity_images']['assembly']
+    input:
+        draft="{sample}.medaka.fasta",
+        bam="{sample}.pilon.bam"
+    output:
+        pilonFold=temporary(directory("{sample}.pilon")),
+        pilon="{sample}.pilon.fasta"
+    threads:
+        80
+    resources:
+        mem_mb=200000
+    shell:
+        "java -Xmx{resources.mem_mb}m -jar /tools/pilon.jar"
+        " --genome {input.draft} --bam {input.bam} --outdir {output.pilonFold}"
+        " --threads {threads} --fix snps,indels"
+        " && cat {output.pilonFold}/pilon.fasta"
+        """ | awk '/^>/{{print ">contig_" ++i; next}}{{print}}' """
+        " > tmp.fa "
+        " && /tools/bbmap/reformat.sh in=tmp.fa out={output.pilon} minlength=10"
+        " && rm tmp.fa"
+
+# rule runFCSadaptor:
+#     input:
+#         "{sample}.pilon.fasta"
+#     output:
+#         draft="{sample}.fcs-adaptor.fasta",
+#         outDir=directory("{sample}_fcs-adaptor")
+#     params:
+#         simg=config['singularity_images']['fcsadaptor']
+#     shell:
+#         "mkdir -p {output.outDir}; "
+#         "singularity exec {params.simg}"
+#         "    /app/fcs/bin/av_screen_x -o {output.outDir} --euk {input}"
+#         " && cp {output.outDir}/cleaned_sequences/{input} {output.draft}"
+
+# rule runFCSgx:
+#     input:
+#         "{sample}.fcs-adaptor.fasta"
+#     output:
+#         outDir=directory("{sample}_fcsgx"),
+#         fcsFile="{sample}_fcsgx/{sample}.fcs-adaptor." + ncbi_taxid + ".fcs_gx_report.txt"
+#     params:
+#         simg=config['singularity_images']['fcsgx'],
+#         shm=shm_loc,
+#         gxdb=gxdb_loc,
+#         taxid=ncbi_taxid
+#     shell:
+#         "SHM_LOC={params.shm}; "
+#         'mkdir -p "${{SHM_LOC}}/gxdb"; '
+#         "mkdir -p {output.outDir}; "
+#         "[ ! -f run_fcsgx.py ] && wget https://raw.githubusercontent.com/ncbi/fcs/v0.3.0/dist/run_fcsgx.py; "
+#         "python3 ./run_fcsgx.py --fasta {input} --out-dir {output.outDir}"
+#         ' --gx-db "${{SHM_LOC}}/gxdb/all" --gx-db-disk {params.gxdb}'
+#         " --split-fasta --tax-id {params.taxid} "
+#         " --container-engine singularity --image={params.simg}"
+
+# rule removeContam:
+#     singularity: config['singularity_images']['assembly']
+#     input:
+#         fcsdir="{sample}_fcsgx",
+#         fcsfile="{sample}_fcsgx/{sample}.fcs-adaptor." + ncbi_taxid + ".fcs_gx_report.txt",
+#         draft="{sample}.fcs-adaptor.fasta"
+#     output:
+#         genomeBed="{sample}.genome.bed",
+#         contamBed="{sample}.contam.bed",
+#         keepBed="{sample}.keep.bed",
+#         genome="{sample}.cleaned.fasta"
+#     threads:
+#         1
+#     shell:
+#         "(samtools faidx {input.draft} --fai-idx -"
+#         """ | awk '{{print $1"\\t"0"\\t"$2}}' """
+#         " > {output.genomeBed} )"
+#         ' && (cat {input.fcsfile} | grep -v "^#" '
+#         """ | awk '{{print $1"\\t"$2-1"\\t"$3}}' > {output.contamBed} ) || true"""
+#         " && if [ -s {output.contamBed} ]; then "
+#         " bedtools subtract -a {output.genomeBed} -b {output.contamBed} > {output.keepBed};"
+#         " else cat {output.genomeBed} > {output.keepBed}; fi "
+#         " && bedtools getfasta -fi {input.draft} -bed {output.keepBed}"
+#         """ | awk '/^>/{{print ">contig_" ++i; next}}{{print}}' """
+#         " > {output.genome}"
+        
+# rule repeatModeler:
+#     input:
+#         "{sample}.cleaned.fasta"
+#     output:
+#         consensus="{sample}-families.fa",
+#         stk="{sample}-families.stk"
+#     threads:
+#         80
+#     singularity: config['singularity_images']['tetools']
+#     shell:
+#         "BuildDatabase -name {wildcards.species} {input}"
+#         " && RepeatModeler -database {wildcards.species}"
+#         "    -pa {threads} -LTRStruct"
+
+# rule repeatMasker:
+#     input:
+#         genome="{sample}.cleaned.fasta",
+#         lib="{sample}-families.fa"
+#     output:
+#         genome="{sample}.rm.fasta",
+#         gff="{sample}.rm.gff"
+#     threads:
+#         80
+#     singularity: config['singularity_images']['tetools']
+#     shell:
+#         "RepeatMasker -lib {input.lib} -xsmall -gff -pa {threads} {input.genome}; "
+#         "mv {input.genome}.masked {output.genome}; "
+#         "mv {input.genome}.out.gff {output.gff}"
