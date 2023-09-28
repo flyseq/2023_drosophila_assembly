@@ -6,8 +6,8 @@ used for genome assembly in our latest manuscript [LINK].
 
 ### Container setup
 The system used for building images must have Docker and/or Singularity 
-(recommended) set up for the builds to run properly. Some images may not 
-work properly without an NVIDIA graphics card. We generally use Ubuntu 
+(recommended) set up for the builds to run properly. Most of these workflows will not 
+work out of the box without an NVIDIA graphics card. We generally use Ubuntu 
 22.04 (native installation) and Ubuntu 22.04 on Windows with WSL2 for this.
 
 For Nanopore base calling and assembly, an NVIDIA graphics card of the
