@@ -17,19 +17,21 @@ fcs:
   taxid: "7214"    # taxid for Drosophilidae (expected seqs)
 
 # Nanopore settings
+# these are chemistry-specific
 nanopore:
   guppy_mod: "dna_r10.4.1_e8.2_400bps_sup.cfg"
   medaka_mod: "r1041_e82_400bps_sup_v4.1.0"
   min_qscore: "10"
 
 # Flye assembler settings
+# generally use --nano-raw for all assms
 flye:
-  reads: "--nano-hq"
+  reads: "--nano-raw"
   flags: "--scaffold --no-alt-contigs"
 
 # Pepper-Margin-DeepVariant model
-# --ont_r9_guppy5_sup
-# --ont_r10_q20
+# --ont_r9_guppy5_sup      R9.4.1 SUP
+# --ont_r10_q20            R10.4.1 SUP
 pmd:
   model: "--ont_r10_q20"
   minGQ: "10"
