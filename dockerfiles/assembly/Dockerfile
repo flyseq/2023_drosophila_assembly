@@ -2,6 +2,7 @@ FROM nvidia/cuda:11.2.1-cudnn8-devel-ubuntu20.04
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    bc \
     bedtools \
     bwa \
     bzip2 \
@@ -179,9 +180,3 @@ RUN cd /tools \
  && cd yak \
  && make -j \
  && ln -s /tools/yak/yak /usr/local/bin/yak
-
-# install Rerio
-RUN cd /tools \
- && git clone https://github.com/nanoporetech/rerio \
- && cd rerio \
- && ln -s /tools/rerio/download_model.py /usr/local/bin/

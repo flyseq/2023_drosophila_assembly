@@ -501,7 +501,7 @@ rule pmdCall:
         bam="{sample}.reads_to_draft_PMD.bam",
         bai="{sample}.reads_to_draft_PMD.bam.bai"
     output:
-        pmdFold=temporary("{sample}.PMD"),
+        pmdFold=temporary(directory("{sample}.PMD")),
         pmdVCF="{sample}.vcf.gz",
         pmdVCFidx="{sample}.vcf.gz.tbi",
         pmdGVCF="{sample}.g.vcf.gz",
@@ -542,10 +542,10 @@ rule pmdQV:
         ' | grep "1/1" | wc -l); '
         'errRate=$(echo "scale=10; $homDer / $total" | bc); '
         'QV=$(echo "scale=4; -10 * l($errRate)/l(10)" | bc -l); '
-        'echo "total callable bases: $total" > output.pmdQV; '
-        'echo "total hom. derived: $homDer" >> output.pmdQV; '
-        'echo "error rate: $errRate" >> output.pmdQV; '
-        'echo "QV: $QV" >> output.pmdQV; '
+        'echo "total callable bases: $total" > {output.pmdQV}; '
+        'echo "total hom. derived: $homDer" >> {output.pmdQV}; '
+        'echo "error rate: $errRate" >> {output.pmdQV}; '
+        'echo "QV: $QV" >> {output.pmdQV}; '
 
 rule repeatModeler:
     input:
