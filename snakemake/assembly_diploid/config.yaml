@@ -1,0 +1,36 @@
+# paths to singularity images
+singularity_images:
+  assembly: "singularity_images/assembly.simg"
+  fcsadaptor: "singularity_images/fcs-adaptor.sif"
+  fcsgx: "singularity_images/fcsgx.sif"
+  tetools: "singularity_images/tetools.simg"
+  parabricks: "singularity_images/parabricks.simg"
+  pmd: "singularity_images/deepvariant.simg"
+
+# Ratatosk settings
+ratatosk:
+  qv: "90"      #90 for R10.4.1, 40 for R9.4.1
+
+# NCBI FCS settings
+fcs:
+  fcsdir: "/media/bernardkim/working-2/fcs/gxdb/all" #FCS database
+  taxid: "7214"    # taxid for Drosophilidae (expected seqs)
+
+# Nanopore settings
+nanopore:
+  guppy_mod: "dna_r10.4.1_e8.2_400bps_sup.cfg"
+  medaka_mod: "r1041_e82_400bps_sup_v4.1.0"
+  min_qscore: "10"
+
+# Flye assembler settings
+flye:
+  reads: "--nano-hq"
+  flags: "--scaffold --no-alt-contigs"
+
+# Pepper-Margin-DeepVariant model
+# --ont_r9_guppy5_sup
+# --ont_r10_q20
+pmd:
+  model: "--ont_r10_q20"
+  minGQ: "10"
+  minDP: "20"
