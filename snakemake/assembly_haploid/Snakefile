@@ -91,7 +91,6 @@ rule runPurgeMap:
         reads="{sample}.fastq.gz",
         draft="{sample}.flye.fasta"
     output:
-        purgeDir=temporary(directory("{sample}.purge")),
         paf=temporary("{sample}.purge/{sample}.paf"),
         cutoffs=temporary("{sample}.purge/{sample}.cutoffs"),
         stat=temporary("{sample}.purge/PB.stat"),
@@ -101,30 +100,30 @@ rule runPurgeMap:
     shell:
         "minimap2 -x map-ont -t{threads} {input.draft} "
         " {input.reads} > {output.paf} "
-        "&& pbcstat -O {output.purgeDir} {output.paf} "
+        "&& pbcstat -O {wildcards.sample}.purge/ {output.paf} "
         "&& calcuts {output.stat} > {output.cutoffs}"
 
 # purge_dups step 2
 rule runPurgeSplit:
     singularity: config['singularity_images']['assembly']
     input:
-        "{sample}.flye.fasta"
+        genome="{sample}.flye.fasta"
     output:
         temporary("{sample}.purge/{sample}.flye.fasta.split")
     shell:
-        "split_fa {input} > {output}"
+        "split_fa {input.genome} > {output}"
 
 # purge_dups step 3
 rule runPurgeSplitMap:
     singularity: config['singularity_images']['assembly']
     input:
-        "{sample}.purge/{sample}.flye.fasta.split"
+        split="{sample}.purge/{sample}.flye.fasta.split"
     output:
         temporary("{sample}.purge/{sample}.flye.fasta.split.paf")
     threads:
         80
     shell:
-        "minimap2 -xasm5 -t{threads} -DP {input} {input} > {output}"
+        "minimap2 -xasm5 -t{threads} -DP {input.split} {input.split} > {output}"
 
 # purge_dups step 4
 rule runPurgePurge:
@@ -134,18 +133,17 @@ rule runPurgePurge:
         paf="{sample}.purge/{sample}.flye.fasta.split.paf",
         cutoffs="{sample}.purge/{sample}.cutoffs",
         pb="{sample}.purge/PB.base.cov",
-        purgeDir="{sample}.purge",
-        stat="{sample}.purge/PB.stat",
+        stat="{sample}.purge/PB.stat"
     output:
         purged="{sample}.purged.fasta",
         intervals=temporary("{sample}.purge/{sample}.dups.bed"),
         log=temporary("{sample}.purge/{sample}.purge_dups.log")
     shell:
-        "cd {input.purgeDir}; "
+        "cd {wildcards.sample}.purge/ ; "
         "purge_dups -2 -T ../{input.cutoffs} -c ../{input.pb} ../{input.draft} > "
         "../{output.intervals} 2> ../{output.log} "
         " && get_seqs -e ../{output.intervals} ../{input.draft} "
-        " && mv purged.fa ../{output.purged} "
+        " && mv purged.fa ../{output.purged}
 
 # medaka polishing step 1
 rule runMedakaAlign:
@@ -371,8 +369,8 @@ rule removeContam:
     shell:
         "cat {input.draft}"
         " | python3 ./fcs.py clean genome --action-report {input.fcsfile}"
-        "     --output {output.genome} --contam-fasta-out {wildcards.sample}.tmp.fa; "
-        """awk '/^>/{{print ">contig_" ++i; next}}{{print}}' {wildcards.sample}.tmp.fa > {output.contam};"""
+        "     --output {wildcards.sample}.tmp.fa --contam-fasta-out {output.contam}; "
+        """awk '/^>/{{print ">contig_" ++i; next}}{{print}}' {wildcards.sample}.tmp.fa > {output.genome};"""
         "cp {input.fcsfile} {output.report}"
 
 # If Illumina reads exist, evaluate QV with Yak
