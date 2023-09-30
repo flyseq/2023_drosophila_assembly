@@ -35,7 +35,6 @@ else:
         cleanedAssm=expand("{sample}.cleaned.fasta",sample=config['sample']),
         contamAssm=expand("{sample}.contam.fasta",sample=config['sample']),
         fcsReport=expand("{sample}.fcs.report",sample=config['sample']),
-        merqQV=expand("{sample}.merqury.qv",sample=config['sample']),
         pmdVCF=expand("{sample}.vcf.gz",sample=config['sample']),
         pmdVCFidx=expand("{sample}.vcf.gz.tbi",sample=config['sample']),
         pmdGVCF=expand("{sample}.g.vcf.gz",sample=config['sample']),

@@ -5,6 +5,48 @@ print (config)
 # check if Illumina reads are provided
 illumExists = ([x in config.keys() for x in ['fwd','rev']].count(True) == 2)
 
+# rule all - two different ones with Illumina and without
+if illumExists:
+  rule all:
+    input:
+        reads=expand("{sample}.fastq.gz",sample=config['sample']),
+        flyeAssm=expand("{sample}.flye.fasta",sample=config['sample']),
+        contamAssm=expand("{sample}.contam.fasta",sample=config['sample']),
+        fcsReport=expand("{sample}.fcs.report",sample=config['sample']),
+        hap1=expand("{sample}.hapdup_1.fasta",sample=config['sample']),
+        hap2=expand("{sample}.hapdup_2.fasta",sample=config['sample']),
+        merqQV=expand("{sample}.merqury.qv",sample=config['sample']),
+        merqQVg=expand("{sample}.merqury.genome.qv",sample=config['sample']),
+        merqComp=expand("{sample}.merqury.completeness.stats",sample=config['sample']),
+        yak=expand("{sample}.yak.out",sample=config['sample']),
+        pmdVCF=expand("{sample}.vcf.gz",sample=config['sample']),
+        pmdVCFidx=expand("{sample}.vcf.gz.tbi",sample=config['sample']),
+        pmdGVCF=expand("{sample}.g.vcf.gz",sample=config['sample']),
+        pmdGVCFidx=expand("{sample}.g.vcf.gz.tbi",sample=config['sample']),
+        pmdQV=expand("{sample}.PMDqv.out",sample=config['sample']),
+        consensus=expand("{sample}-families.fa",sample=config['sample']),
+        stk=expand("{sample}-families.stk",sample=config['sample']),
+        genome=expand("{sample}.rm.fasta",sample=config['sample']),
+        gff=expand("{sample}.rm.gff",sample=config['sample'])
+else:
+  rule all:
+    input:
+        reads=expand("{sample}.fastq.gz",sample=config['sample']),
+        flyeAssm=expand("{sample}.flye.fasta",sample=config['sample']),
+        contamAssm=expand("{sample}.contam.fasta",sample=config['sample']),
+        fcsReport=expand("{sample}.fcs.report",sample=config['sample']),
+        hap1=expand("{sample}.hapdup_1.fasta",sample=config['sample']),
+        hap2=expand("{sample}.hapdup_2.fasta",sample=config['sample']),
+        pmdVCF=expand("{sample}.vcf.gz",sample=config['sample']),
+        pmdVCFidx=expand("{sample}.vcf.gz.tbi",sample=config['sample']),
+        pmdGVCF=expand("{sample}.g.vcf.gz",sample=config['sample']),
+        pmdGVCFidx=expand("{sample}.g.vcf.gz.tbi",sample=config['sample']),
+        pmdQV=expand("{sample}.PMDqv.out",sample=config['sample']),
+        consensus=expand("{sample}-families.fa",sample=config['sample']),
+        stk=expand("{sample}-families.stk",sample=config['sample']),
+        genome=expand("{sample}.rm.fasta",sample=config['sample']),
+        gff=expand("{sample}.rm.gff",sample=config['sample'])
+
 # check if basecalls already exist, if not then basecall with Guppy
 if os.path.exists(config['sample']) \
    and not os.path.exists('{}.fastq.gz'.format(config['sample'])):
