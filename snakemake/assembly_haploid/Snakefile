@@ -535,7 +535,7 @@ rule pmdQV:
         "total=$(bcftools view -i'FMT/GQ>=10 && FMT/MIN_DP>=6' {input.pmdGVCF}"
         """      | grep -v "^#" |  sed 's/END=//' """
         """      | awk -F"\t" '{{a+=($8-$2+1)}}END{{print a}}'); """
-        "homDer=$(bcftools view -i'FMT/GQ>=10 && FMT/DP>=6' D.melanogaster.vcf.gz"
+        "homDer=$(bcftools view -i'FMT/GQ>=10 && FMT/DP>=6' {input.pmdVCF}"
         ' | grep "1/1" | wc -l); '
         'errRate=$(echo "scale=10; $homDer / $total" | bc); '
         'QV=$(echo "scale=4; -10 * l($errRate)/l(10)" | bc -l); '

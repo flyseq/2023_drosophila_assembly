@@ -1,27 +1,27 @@
 import os, re, glob
 
-missingNo=1   #max number of missing taxa
-maxBuscos=250  #max number of BUSCOs to use
-buscoPath="/scratch/users/bkim331/busco/busco/" # path to BUSCO folders
+# load settings from configuration file
+configfile: "config.yaml"
+print (config)
+
+# save config settings
+missingNo=config['maxMissing']
+maxBuscos=config['maxBUSCO']
+buscoPath=config['buscoPath']
 fourfoldref="D.melanogaster"
 
-#speciesNum = len(os.listdir('{}'.format(buscoPath))) #count number of species
-#speciesList = [x.replace('.busco','') 
-#               for x in os.listdir('{}'.format(buscoPath))] #list of species
-speciesNum = len(glob.glob('{}/*.busco'.format(buscoPath))) # count number of species in BUSCO folder
+# count number of species in BUSCO folder
+speciesNum = len(glob.glob('{}/*.busco'.format(buscoPath))) 
+# make a list of species
 speciesList = [x.split('/')[-1].replace('.busco','') 
-               for x in glob.glob('{}/*.busco'.format(buscoPath))] # list of species
+               for x in glob.glob('{}/*.busco'.format(buscoPath))] 
 
 singularity:
-    "/scratch/users/bkim331/busco/buscotree.simg"
+    buscoPath=config['singularity_images']['busco']
 
 rule all:
     input:
-        sptree="busco_species_astral_withtips.tree",
-        modall="busco_species_rescaled_subs.mod",
-        treeall="busco_species_rescaled_subs.tree",
-        mod4d="busco_4d.mod",
-        tree4d="busco_4d.tree"
+        sptree="busco_species_astral_withtips.tree"
 
 rule getCompleteBUSCOList:
     input:
@@ -126,173 +126,3 @@ rule addTips:
         "busco_species_astral_withtips.tree"
     shell:
         "cat {input} | sed -E 's/([A-Z]_[A-Z0-9_\-]+)/\\1:1/g' > {output}"
-
-rule phyloFitAll:
-    input:
-        fa="busco_nt_aln/{busco}.aln.fasta",
-        tree="busco_species_astral_withtips.tree"
-    output:
-        ss="busco_nt_aln_ss/{busco}.ss",
-        mod="busco_nt_aln_ss/{busco}.mod"
-    params:
-        spList=','.join([x.upper().replace('.','_') for x in speciesList])
-    shell:
-        "msa_view {input.fa} --in-format FASTA --order {params.spList} "
-        "    --collapse-missing --out-format SS > {output.ss} "
-        " && phyloFit --tree $(cat {input.tree}) --subst-mod REV "
-        "    --msa-format SS --out-root busco_nt_aln_ss/{wildcards.busco}"
-        "    {output.ss}"
-
-def listModAll(wildcards):
-    buscoListFile = checkpoints.filterBUSCO.get(**wildcards).output[0]
-    buscoList = [x.strip("\n") for x in open(buscoListFile, 'r').readlines()]
-    return expand("busco_nt_aln_ss/{b}.mod", b=buscoList)
-
-rule phyloBootAll:
-    input:
-        listModAll
-    output:
-        mod="busco_species_rescaled_subs.mod",
-        tree="busco_species_rescaled_subs.tree"
-    shell:
-        "phyloBoot --read-mods *<(ls busco_nt_aln_ss/*.mod) "
-        "    --output-average {output.mod} "
-        " && tail -n 1 {output.mod} | sed 's/TREE: //' > {output.tree}"
-
-checkpoint filterBUSCOAA:
-    input:
-        "final_busco_ids.txt",
-    output:
-        "final_busco_ids_refonly.txt"
-    params:
-        ref=fourfoldref
-    shell:
-        "cat {input} <( cat busco/{params.ref}.busco/run_diptera_odb10/full_table.tsv "
-        """ | awk '$2=="Complete"{{print $1}}' ) """
-        " | sort | uniq -c | sort -nr -k1 "
-        """ | awk '$1==2{{print $2}}' """
-        " > {output}"
-
-rule aggregateBUSCOAA:
-    output:
-        'busco_aa/{busco}.faa'
-    shell:
-        """find . -wholename "*/single_copy_busco_sequences/{wildcards.busco}.faa" """
-        """| sed -E 's/\.\/busco\/([A-Za-z0-9\.]*)\.busco.+/\\1 \\0/' """
-        "| while read sp line; do """
-        " ( cat ${{line}} "
-        """| sed -E "s/>.+/>${{sp}}/" | tr '.' '_' | tr '[:lower:]' '[:upper:]' >> {output} ); """
-        "done "
-
-rule alignBUSCOAA:
-    input:
-        faa='busco_aa/{busco}.faa',
-        tree='iqtree/iqtree_{busco}.treefile'
-    output:
-        'busco_aa_aln/{busco}.aln.faa'
-    threads:
-        10
-    shell:
-        "mkdir -p busco_aa_aln "
-        " && mafft --thread {threads} --auto {input.faa} > {output}"
-
-rule backtrans:
-    input:
-        faa='busco_aa_aln/{busco}.aln.faa',
-        fna='busco_nt/{busco}.fna'
-    output:
-        'busco_codon_aln/{busco}.codon.aln.fasta'
-    threads:
-        2
-    shell:
-        "mkdir -p busco_codon_aln"
-        " && /tools/pal2nal.pl {input.faa} {input.fna} -output fasta"
-        " > {output}"
-
-rule parseGFF:
-    input:
-        buscoList="final_busco_ids.txt"
-    output:
-        directory('busco_gffs')
-    params:
-        ref=fourfoldref
-    threads:
-        2
-    shell:
-        "bash /tools/parsegff.sh {params.ref} {input.buscoList}"
-
-rule make4dSS:
-    input:
-        fna="busco_codon_aln/{busco}.codon.aln.fasta",
-        gffdir="busco_gffs",
-    output:
-        ss="busco_codon_ss/{busco}.4dcodons.ss",
-        ss4d="busco_codon_ss/{busco}.4d.ss"
-    params:
-        spList=','.join([x.upper().replace('.','_') for x in speciesList])
-    threads: 
-        2
-    shell:
-        "mkdir -p busco_codon_ss"
-        " && msa_view {input.fna} --in-format FASTA "
-        "    --4d --features {input.gffdir}/{wildcards.busco}.gff "
-        "    --collapse-missing --out-format SS > {output.ss} "
-        " && msa_view {output.ss} --in-format SS --out-format SS "
-        "    --order {params.spList} --tuple-size 1 > {output.ss4d}"
-
-def list4dAll(wildcards):
-    buscoListFile = checkpoints.filterBUSCOAA.get(**wildcards).output[0]
-    buscoList = [x.strip("\n") for x in open(buscoListFile, 'r').readlines()]
-    return expand("busco_codon_ss/{b}.4d.ss", b=buscoList)
-
-checkpoint split4dSS:
-    input:
-        list4dAll, 
-        tree="busco_species_astral_withtips.tree"
-    output:
-        "tmp.4d.files"
-    params:
-        spList=','.join([x.upper().replace('.','_') for x in speciesList])
-    threads:
-        2
-    shell:
-        "mkdir -p tmp.4d"
-        " && ls busco_codon_ss/*.4d.ss | shuf > tmp.4dlist "
-        " && split -n l/12 -d tmp.4dlist tmp.4d/tmp.4dchunk. "
-        " && rm tmp.4dlist"
-        " && ls tmp.4d/tmp.4dchunk.?? | sed 's/tmp.4d\///' > {output} "
-        " && cat tmp.4d.files | while read chunk; do msa_view "
-        "    --aggregate {params.spList} --unordered-ss --in-format SS "
-        "    --out-format SS $(cat tmp.4d/${{chunk}}) > tmp.4d/${{chunk}}.ss; done"
-
-rule indiv4dMod:
-    input:
-        ss="tmp.4d/{chunk}.ss",
-        tree="busco_species_astral_withtips.tree"
-    output:
-        mod="tmp.4d/{chunk}.mod"
-    params:
-        spList=','.join([x.upper().replace('.','_') for x in speciesList])
-    threads:
-        2
-    shell:
-        """phyloFit --tree "$(cat {input.tree} | tr -d ';')" --subst-mod REV -I 20 """
-        '--msa-format SS --out-root tmp.4d/{wildcards.chunk} {input.ss}'
-
-def list4dChunks(wildcards):
-    chunkFile = checkpoints.split4dSS.get(**wildcards).output[0]
-    chunkList = [x.strip("\n") for x in open(chunkFile, 'r').readlines()]
-    return expand("tmp.4d/{c}.mod", c=chunkList)
-
-rule avg4dMod:
-    input:
-        list4dChunks
-    output:
-        mod="busco_4d.mod",
-        tree="busco_4d.tree"
-    threads:
-        2
-    shell:
-        "phyloBoot --read-mods *<(ls tmp.4d/tmp.4dchunk.*.mod) --output-average {output.mod}"
-        " && tail -n 1 {output.mod} | sed 's/TREE: //' > {output.tree}"
-        " && rm -r tmp.4d/"

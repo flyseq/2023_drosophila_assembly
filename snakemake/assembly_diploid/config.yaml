@@ -25,7 +25,7 @@ nanopore:
 
 # Flye assembler settings
 flye:
-  reads: "--nano-hq"
+  reads: "--nano-raw"
   flags: "--scaffold --no-alt-contigs"
 
 # Pepper-Margin-DeepVariant model

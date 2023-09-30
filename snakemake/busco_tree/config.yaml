@@ -1,0 +1,12 @@
+# paths to Singularity images
+singularity_images:
+    busco: "singularity_images/buscotree.simg"
+
+# maximum number of missing taxa
+maxMissing: "1"
+
+# max number of BUSCO genes to use
+maxBUSCO: "250"
+
+# path to folder with BUSCO outputs
+buscoPath: "busco"

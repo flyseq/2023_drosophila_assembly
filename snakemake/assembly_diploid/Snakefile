@@ -108,27 +108,17 @@ if illumExists:
             " -s {input.fwdtr} -s {input.revtr} -l {input.lreads}"
             " -o {wildcards.sample}.corr"
 
-# initial draft assembly with Flye
 if illumExists:
-  rule runFlye:
-    singularity: config['singularity_images']['assembly']
-    input:
-        "{sample}.corr.fastq.gz"
-    output:
-        draft="{sample}.flye.fasta",
-        flyeDir=temporary(directory("{sample}.flye"))
-    threads:
-        80
-    shell:
-        'resume=""; [ -d "{output.flyeDir}" ] && resume="--resume"; '
-        "flye --nano-hq {input} --threads {threads} "
-        "--out-dir {output.flyeDir} {config[flye][flags]} ${{resume}}"
-        "&& cp {output.flyeDir}/assembly.fasta {output.draft}"
+    flyeReads = config['sample'] + '.corr.fastq.gz'
 else:
-  rule runFlye:
+    flyeReads = config['sample'] + '.fastq.gz'
+
+
+# initial draft assembly with Flye
+rule runFlye:
     singularity: config['singularity_images']['assembly']
     input:
-        "{sample}.fastq.gz"
+        flyeReads
     output:
         draft="{sample}.flye.fasta",
         flyeDir=temporary(directory("{sample}.flye"))
@@ -482,7 +472,7 @@ rule pmdQV:
         "total=$(bcftools view -i'FMT/GQ>=10 && FMT/MIN_DP>=6' {input.pmdGVCF}"
         """      | grep -v "^#" |  sed 's/END=//' """
         """      | awk -F"\t" '{{a+=($8-$2+1)}}END{{print a}}'); """
-        "homDer=$(bcftools view -i'FMT/GQ>=10 && FMT/DP>=6' D.melanogaster.vcf.gz"
+        "homDer=$(bcftools view -i'FMT/GQ>=10 && FMT/DP>=6' {input.pmdVCF}"
         ' | grep "1/1" | wc -l); '
         'errRate=$(echo "scale=10; $homDer / $total" | bc); '
         'QV=$(echo "scale=4; -10 * l($errRate)/l(10)" | bc -l); '
