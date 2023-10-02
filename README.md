@@ -159,3 +159,11 @@ This information is passed to Snakemake through
   * Merqury QV (by contig/chr): `{sample}.merqury.genome.qv`
   * Merqury completeness: `{sample}.merqury.completeness.stats`
   * Yak QV: `{sample}.yak.out`
+
+## Progressive Cactus alignment
+A preliminary version of the Progressive Cactus alignment can be downloaded 
+[from this Google Drive link](https://drive.google.com/file/d/18GWhgdOo-IrvxwjLKJnpMLiCpWvsOFYu/view?usp=drive_link).
+Note that genomes are subject to minor changes following submittion to NCBI GenBank.
+A final alignment will eventually be archived at Dryad: DOI (10.5061/dryad.x0k6djhrd)
+
+

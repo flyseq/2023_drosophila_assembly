@@ -1,0 +1,299 @@
+name,genome source,genome accession,citation,read type,assm size,genome N50,species,genus,cactus_name
+Stegana nigrithorax,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"187,957,653","295,649",Stegana,nigrithorax,S_NIGRITHORAX
+Leucophenga maculata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"354,844,425","1,242,416",Leucophenga,maculata,L_MACULATA
+Leucophenga montana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"402,073,277","821,592",Leucophenga,montana,L_MONTANA
+Cacoxenus indagator,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"254,846,158","2,990,262",Cacoxenus,indagator,C_INDAGATOR
+Amiota minor,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"263,985,115","1,366,163",Amiota,minor,A_MINOR
+Amiota communis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"309,734,248","1,552,548",Amiota,communis,A_COMMUNIS
+Amiota mariae,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"288,403,237","3,640,199",Amiota,mariae,A_MARIAE
+Chymomyza caudatula,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"239,808,143","4,699,727",Chymomyza,caudatula,C_CAUDATULA
+Chymomyza procnemis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"239,648,949","34,133,586",Chymomyza,procnemis,C_PROCNEMIS
+Chymomyza amoena,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"392,904,778","205,866",Chymomyza,amoena,C_AMOENA
+Chymomyza costata,NCBI GenBank,GCA_018150985.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"315,184,827","8,126,076",Chymomyza,costata,C_COSTATA
+Chymomyza fuscimana,NCBI GenBank,GCA_949987675.1,Darwin TOL,PB HiFi + HiC,"337,977,858","104,850,594",Chymomyza,fuscimana,C_FUSCIMANA
+Scaptodrosophila lebanonensis,NCBI RefSeq,GCF_003285725.1,"Clark, Long labs",PB Sequel + Illumina,"247,077,949","7,854,782",Scaptodrosophila,lebanonensis,S_LEBANONENSIS
+Scaptodrosophila latifasciaeformis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"154,487,965","9,811,568",Scaptodrosophila,latifasciaeformis,S_LATIFASCIAEFORMIS
+Hirtodrosophila duncani,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"207,801,326","3,366,531",Hirtodrosophila,duncani,H_DUNCANI
+Lordiphosa mommai,NCBI GenBank,GCA_018904225.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"339,463,949","622,708",Lordiphosa,mommai,L_MOMMAI
+Lordiphosa collinella,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"444,496,639","345,488",Lordiphosa,collinella,L_COLLINELLA
+Lordiphosa andalusiaca,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"256,791,629","882,951",Lordiphosa,andalusiaca,L_ANDALUSIACA
+Lordiphosa fenestrarum,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1,"292,263,876","366,076",Lordiphosa,fenestrarum,L_FENESTRARUM
+Lordiphosa magnipectinata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"493,136,655","304,656",Lordiphosa,magnipectinata,L_MAGNIPECTINATA
+Lordiphosa clarofinis,NCBI GenBank,GCA_018904275.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"398,719,931","1,678,281",Lordiphosa,clarofinis,L_CLAROFINIS
+Drosophila sturtevanti,NCBI GenBank,GCA_018150375.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"172,592,868","3,949,872",Drosophila,sturtevanti,D_STURTEVANTI
+Drosophila emarginata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"168,107,943","6,746,666",Drosophila,emarginata,D_EMARGINATA
+Drosophila neocordata,NCBI GenBank,GCA_018903615.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"194,830,689","6,033,383",Drosophila,neocordata,D_NEOCORDATA
+Drosophila saltans,NCBI GenBank,GCA_018903575.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"249,306,946","2,961,640",Drosophila,saltans,D_SALTANS
+Drosophila austrosaltans,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"219,605,609","11,510,071",Drosophila,austrosaltans,D_AUSTROSALTANS
+Drosophila prosaltans,NCBI GenBank,GCA_018151275.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"214,135,114","2,707,258",Drosophila,prosaltans,D_PROSALTANS
+Drosophila sucinea,NCBI GenBank,GCA_018150745.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"184,689,537","8,149,606",Drosophila,sucinea,D_SUCINEA
+Drosophila nebulosa,NCBI GenBank,GCA_024703675.1,"Sottolano et al. 2022, G3",PB Sequel + Illumina,"176,642,184","20,901,532",Drosophila,nebulosa,D_NEBULOSA
+Drosophila insularis,NCBI GenBank,GCA_018903935.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"212,411,654","6,295,961",Drosophila,insularis,D_INSULARIS
+Drosophila tropicalis,NCBI GenBank,GCA_018151085.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"211,041,385","5,082,839",Drosophila,tropicalis,D_TROPICALIS
+Drosophila willistoni,NCBI RefSeq,GCF_018902025.1,"Ranz et al. 2023, Mol. Ecol.",PB RS + Illumina,"246,985,538","9,374,611",Drosophila,willistoni,D_WILLISTONI
+Drosophila paulistorum,NCBI GenBank,GCA_018152135.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"321,171,226","16,514,525",Drosophila,paulistorum,D_PAULISTORUM
+Drosophila equinoxialis,NCBI GenBank,GCA_018150345.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"221,733,993","6,639,417",Drosophila,equinoxialis,D_EQUINOXIALIS
+Drosophila guanche,NCBI RefSeq,GCF_900245975.1,"Puerma et al. 2018, GBE",Illumina,"140,632,981","7,251,133",Drosophila,guanche,D_GUANCHE
+Drosophila subobscura,NCBI RefSeq,GCF_008121235.1,"Bracewell et al. 2019, eLife",ONT R9.4.1 + Illumina,"126,248,017","24,182,865",Drosophila,subobscura,D_SUBOBSCURA
+Drosophila bifasciata,NCBI GenBank,GCA_009664405.1,"Bracewell et al. 2020, G3",PB Sequel + Illumina + Hi-C,"192,749,618","48,071,510",Drosophila,bifasciata,D_BIFASCIATA
+Drosophila subsilvestris,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"162,767,741","3,560,445",Drosophila,subsilvestris,D_SUBSILVESTRIS
+Drosophila obscura,NCBI RefSeq,GCF_018151105.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"179,834,232","3,931,141",Drosophila,obscura,D_OBSCURA
+Drosophila ambigua,NCBI GenBank,GCA_018150905.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"161,264,264","11,334,561",Drosophila,ambigua,D_AMBIGUA
+Drosophila tristis,NCBI GenBank,GCA_018150885.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"158,167,647","5,059,044",Drosophila,tristis,D_TRISTIS
+Drosophila lowei,NCBI GenBank,GCA_008121275.1,"Bracewell et al. 2019, eLife",ONT R9.4.1 + Illumina,"184,313,494","48,132,706",Drosophila,lowei,D_LOWEI
+Drosophila miranda,NCBI RefSeq,NCBI GenBank,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"167,531,964","31,161,471",Drosophila,miranda,D_MIRANDA
+Drosophila pseudoobscura,NCBI RefSeq,GCF_009870125.1,"Liao et al. 2021, Genome Res",PB Sequel + Illumina + Hi-C,"163,282,969","32,422,566",Drosophila,pseudoobscura,D_PSEUDOOBSCURA
+Drosophila persimilis,NCBI RefSeq,GCF_003286085.1,"Clark, Long labs",PB Sequel + Illumina,"195,512,972","5,212,974",Drosophila,persimilis,D_PERSIMILIS
+Drosophila helvetica,NCBI RefSeq,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"184,306,181","792,072",Drosophila,helvetica,D_HELVETICA
+Drosophila azteca,NCBI GenBank,GCA_005876895.1,"Flynn et al. 2020, MBE",PB Sequel + Illumina,"219,083,522","17,833,963",Drosophila,azteca,D_AZTECA
+Drosophila affinis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"183,069,186","6,659,275",Drosophila,affinis,D_AFFINIS
+Drosophila algonquin,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"169,381,220","1,517,147",Drosophila,algonquin,D_ALGONQUIN
+Drosophila athabasca,NCBI GenBank,GCA_008121215.1,"Bracewell et al. 2019, eLife",PB RS II + Illumina,"192,660,667","52,101,127",Drosophila,athabasca,D_ATHABASCA
+Drosophila setifemur,NCBI GenBank,GCA_021224005.1,"Li et al. 2020, Mol Ecol Res",Illumina,"155,894,680","16,247,748",Drosophila,setifemur,D_SETIFEMUR
+Drosophila ironensis,NCBI GenBank,GCA_021223825.1,"Li et al. 2020, Mol Ecol Res",Illumina,"144,278,514","1,537,213",Drosophila,ironensis,D_IRONENSIS
+Drosophila varians,NCBI GenBank,GCA_018150405.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"143,042,420","22,921,383",Drosophila,varians,D_VARIANS
+Drosophila vallismaia,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"171,530,783","21,241,113",Drosophila,vallismaia,D_VALLISMAIA
+Drosophila merina,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"193,262,168","22,261,538",Drosophila,merina,D_MERINA
+Drosophila ercepeae,NCBI GenBank,GCA_018150545.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"178,957,960","22,310,376",Drosophila,ercepeae,D_ERCEPEAE
+Drosophila pseudoananassae,NCBI GenBank,GCA_018153035.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"193,740,970","7,392,541",Drosophila,pseudoananassae,D_PSEUDOANANASSAE
+Drosophila malerkotliana,NCBI GenBank,GCA_018153235.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"191,313,204","20,136,493",Drosophila,malerkotliana,D_MALERKOTLIANA
+Drosophila bipectinata,NCBI RefSeq,GCF_018153845.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"192,393,922","15,788,854",Drosophila,bipectinata,D_BIPECTINATA
+Drosophila parabipectinata,NCBI GenBank,GCA_018153455.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"209,862,113","11,640,351",Drosophila,parabipectinata,D_PARABIPECTINATA
+Drosophila atripex,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"173,038,784","14,577,270",Drosophila,atripex,D_ATRIPEX
+Drosophila monieri,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"173,474,366","6,771,795",Drosophila,monieri,D_MONIERI
+Drosophila pandora,NCBI GenBank,GCA_021223865.1,"Li et al. 2020, Mol Ecol Res",Illumina,"181,393,585","1,881,776",Drosophila,pandora,D_PANDORA
+Drosophila anomalata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"173,872,104","607,592",Drosophila,anomalata,D_ANOMALATA
+Drosophila ananassae,NCBI RefSeq,GCF_017639315.1,"Tvedte et al. 2021, G3",PB Sequel II + HiFi,"213,817,545","26,427,416",Drosophila,ananassae,D_ANANASSAE
+Drosophila pallidosa,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"153,406,098","111,022",Drosophila,pallidosa,D_PALLIDOSA
+Drosophila oshimai,NCBI GenBank,GCA_018150695.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"181,013,079","2,625,980",Drosophila,oshimai,D_OSHIMAI
+Drosophila ficusphila,NCBI RefSeq,GCF_018152265.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"167,832,931","9,958,166",Drosophila,ficusphila,D_FICUSPHILA
+Drosophila gunungcola,NCBI RefSeq,GCF_025200985.1,"Negi et al. 2023, GBE",PB Sequel + Illumina,"189,841,955","19,454,640",Drosophila,gunungcola,D_GUNUNGCOLA
+Drosophila elegans,NCBI RefSeq,GCF_018152505.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"178,445,117","21,933,072",Drosophila,elegans,D_ELEGANS
+Drosophila fuyamai,NCBI GenBank,GCA_018153365.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"229,100,662","4,123,611",Drosophila,fuyamai,D_FUYAMAI
+Drosophila kurseongensis,NCBI GenBank,GCA_018153305.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"206,440,819","10,767,929",Drosophila,kurseongensis,D_KURSEONGENSIS
+Drosophila rhopaloa,NCBI RefSeq,GCF_018152115.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"193,508,231","15,806,012",Drosophila,rhopaloa,D_RHOPALOA
+Drosophila carrolli,NCBI GenBank,GCA_018152295.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"231,219,246","14,004,682",Drosophila,carrolli,D_CARROLLI
+Drosophila biarmipes,NCBI RefSeq,GCF_025231255.1,? Zhao lab,PacBio Sequel + Illumina,"193,597,863","26,917,925",Drosophila,biarmipes,D_BIARMIPES
+Drosophila subpulchrella,NCBI RefSeq,GCF_014743375.2,"Durkin et al. 2021, MBE",PacBio Sequel + Illumina,"265,153,789","11,590,999",Drosophila,subpulchrella,D_SUBPULCHRELLA
+Drosophila suzukii,NCBI RefSeq,GCF_013340165.1,"Paris et al. 2020, Sci Reports",PacBio HiFi,"268,012,156","2,609,782",Drosophila,suzukii,D_SUZUKII
+Drosophila mimetica,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"171,388,303","31,089,734",Drosophila,mimetica,D_MIMETICA
+Drosophila takahashii,NCBI RefSeq,GCF_018152695.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"165,528,346","12,380,692",Drosophila,takahashii,D_TAKAHASHII
+Drosophila lutescens,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"186,166,801","883,799",Drosophila,lutescens,D_LUTESCENS
+Drosophila pseudotakahashii,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"191,280,646","5,880,140",Drosophila,pseudotakahashii,D_PSEUDOTAKAHASHII
+Drosophila prostipennis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"194,385,441","1,365,863",Drosophila,prostipennis,D_PROSTIPENNIS
+Drosophila eugracilis,NCBI RefSeq,GCF_018153835.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"164,811,307","2,288,481",Drosophila,eugracilis,D_EUGRACILIS
+Drosophila melanogaster,NCBI RefSeq,GCF_000001215.4,"dos Santos et al. 2015, Nuc Acids Res",,"143,726,002","25,286,936",Drosophila,melanogaster,D_MELANOGASTER
+Drosophila simulans,NCBI RefSeq,GCF_016746395.2,Andolfatto lab,PB RS II + Illumina,"131,663,590","23,399,903",Drosophila,simulans,D_SIMULANS
+Drosophila mauritiana,NCBI RefSeq,GCF_004382145.1,"Chakraborty et al. 2021, Genome Res",PB RS II + Illumina,"152,313,266","24,228,064",Drosophila,mauritiana,D_MAURITIANA
+Drosophila sechellia,NCBI RefSeq,GCF_004382195.2,"Chakraborty et al. 2021, Genome Res",PB RS II + Illumina,"153,084,571","24,956,976",Drosophila,sechellia,D_SECHELLIA
+Drosophila orena,NCBI GenBank,GCA_005876975.1,"Clark, Long labs",PB Sequel + Illumina,"182,891,478","5,273,554",Drosophila,orena,D_ORENA
+Drosophila erecta,NCBI RefSeq,GCF_003286155.1,"Clark, Long labs",PB Sequel + Illumina,"146,538,397","22,146,549",Drosophila,erecta,D_ERECTA
+Drosophila teissieri,NCBI RefSeq,GCF_016746235.2,Andolfatto lab,PB RS II + Illumina,"149,494,471","24,551,875",Drosophila,teissieri,D_TEISSIERI
+Drosophila santomea,NCBI RefSeq,GCF_016746245.2,Andolfatto lab,PB RS II + Illumina,"146,800,522","25,621,868",Drosophila,santomea,D_SANTOMEA
+Drosophila yakuba,NCBI RefSeq,GCF_016746365.2,Andolfatto lab,PB RS II + Illumina,"147,899,117","25,180,761",Drosophila,yakuba,D_YAKUBA
+Drosophila pectinifera,NCBI GenBank,GCA_008042775.1,"Bronski et al. 2020, G3",Illumina,"149,209,000","102,287",Drosophila,pectinifera,D_PECTINIFERA
+Drosophila triauraria,NCBI GenBank,GCA_014170255.2,"Torosin et al. 2020, Plos Gen",ONT R9.4.1 + Illumina + Hi-C,"195,275,685","34,538,105",Drosophila,triauraria,D_TRIAURARIA
+Drosophila auraria,NCBI GenBank,GCA_008042615.1,"Bronski et al. 2020, G3",Illumina,"197,420,731","48,331",Drosophila,auraria,D_AURARIA
+Drosophila tani,NCBI GenBank,GCA_008042535.1,"Bronski et al. 2020, G3",Illumina,"180,972,673","57,531",Drosophila,tani,D_TANI
+Drosophila rufa,NCBI GenBank,GCA_018153105.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"208,439,571","24,719,385",Drosophila,rufa,D_RUFA
+Drosophila asahinai,NCBI GenBank,GCA_008042795.1,"Bronski et al. 2020, G3",Illumina,"189,050,820","82,718",Drosophila,asahinai,D_ASAHINAI
+Drosophila lacteicornis,NCBI GenBank,GCA_008044355.1,"Bronski et al. 2020, G3",Illumina,"182,681,050","70,510",Drosophila,lacteicornis,D_LACTEICORNIS
+Drosophila kanapiae,NCBI GenBank,GCA_008042475.1,"Bronski et al. 2020, G3",Illumina,"152,203,088","405,601",Drosophila,kanapiae,D_KANAPIAE
+Drosophila ogumai,NCBI GenBank,GCA_018904815.1,"Conner et al. 2021, MPE",Illumina,"134,345,277","26,859",Drosophila,ogumai,D_OGUMAI
+Drosophila kikkawai,NCBI RefSeq,GCF_018152535.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"188,799,863","21,812,520",Drosophila,kikkawai,D_KIKKAWAI
+Drosophila bocki,NCBI GenBank,GCA_008042715.1,"Bronski et al. 2020, G3",Illumina,"151,202,254","80,877",Drosophila,bocki,D_BOCKI
+Drosophila leontia,NCBI GenBank,GCA_008042735.1,"Bronski et al. 2020, G3",Illumina,"164,601,511","25,943",Drosophila,leontia,D_LEONTIA
+Drosophila watanabei,NCBI GenBank,GCA_008042575.1,"Bronski et al. 2020, G3",Illumina,"196,825,890","33,883",Drosophila,watanabei,D_WATANABEI
+Drosophila punjabiensis,NCBI GenBank,GCA_008042585.1,"Bronski et al. 2020, G3",Illumina,"192,339,030","77,693",Drosophila,punjabiensis,D_PUNJABIENSIS
+Drosophila serrata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"174,651,249","3,425,968",Drosophila,serrata,D_SERRATA
+Drosophila bunnanda,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"157,914,859","20,725,587",Drosophila,bunnanda,D_BUNNANDA
+Drosophila truncata,NCBI GenBank,GCA_008042515.1,"Bronski et al. 2020, G3",Illumina,"167,897,087","127,470",Drosophila,truncata,D_TRUNCATA
+Drosophila birchii,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"161,964,435","20,240,225",Drosophila,birchii,D_BIRCHII
+Drosophila mayri,NCBI GenBank,GCA_008042485.1,"Bronski et al. 2020, G3",Illumina,"167,897,087","25,943",Drosophila,mayri,D_MAYRI
+Drosophila anomelani,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"170,599,943","20,772,541",Drosophila,anomelani,D_ANOMELANI
+Drosophila jambulina,NCBI GenBank,GCA_018152175.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"179,653,633","24,616,268",Drosophila,jambulina,D_JAMBULINA
+Drosophila seguyi,NCBI GenBank,GCA_008042675.1,"Bronski et al. 2020, G3",Illumina,"178,856,532","88,705",Drosophila,seguyi,D_SEGUYI
+Drosophila vulcana,NCBI GenBank,GCA_008042555.1,"Bronski et al. 2020, G3",Illumina,"187,578,810","79,402",Drosophila,vulcana,D_VULCANA
+Drosophila bakoue,NCBI GenBank,GCA_008044335.1,"Bronski et al. 2020, G3",Illumina,"187,248,584","38,013",Drosophila,bakoue,D_BAKOUE
+Drosophila tsacasi,NCBI GenBank,GCA_018904565.1,"Conner et al. 2021, MPE",Illumina,"144,985,661","23,504",Drosophila,tsacasi,D_TSACASI
+Drosophila nikananu,NCBI GenBank,GCA_008042635.1,"Bronski et al. 2020, G3",Illumina,"190,505,469","29,794",Drosophila,nikananu,D_NIKANANU
+Drosophila bocqueti,NCBI GenBank,GCA_018151655.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"173,041,441","20,206,544",Drosophila,bocqueti,D_BOCQUETI
+Drosophila burlai,NCBI GenBank,GCA_008042655.1,"Bronski et al. 2020, G3",Illumina,"175,666,184","31,899",Drosophila,burlai,D_BURLAI
+Drosophila busckii,NCBI RefSeq,GCF_011750605.1,"Renschler et al. 2019, Genes Dev",PacBio + Illumina + HiC,"118,492,362","22,692,164",Drosophila,busckii,D_BUSCKII
+Drosophila repletoides,NCBI GenBank,GCA_018150835.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"181,448,104","18,762,850",Drosophila,repletoides,D_REPLETOIDES
+Liodrosophila aerea,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"158,262,486","829,670",Liodrosophila,aerea,L_AEREA
+Hypselothyrea guttata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"182,534,749","416,894",Hypselothyrea,guttata,H_GUTTATA
+Zaprionus bogoriensis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"160,681,560","2,433,529",Zaprionus,bogoriensis,Z_BOGORIENSIS
+Zaprionus ghesquierei,NCBI GenBank,GCA_018904095.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"198,077,797","8,961,507",Zaprionus,ghesquierei,Z_GHESQUIEREI
+Zaprionus inermis,NCBI GenBank,GCA_018151445.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"149,549,994","5,752,227",Zaprionus,inermis,Z_INERMIS
+Zaprionus kolodkinae,NCBI GenBank,GCA_018901885.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"182,973,347","6,507,380",Zaprionus,kolodkinae,Z_KOLODKINAE
+Zaprionus tuberculatus,,,via Aaron Comeault,PB Sequel + Hi-C,"176,343,546","21,326,001",Zaprionus,tuberculatus,Z_TUBERCULATUS
+Zaprionus tsacasi,NCBI GenBank,GCA_018904105.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"165,518,990","5,453,558",Zaprionus,tsacasi,Z_TSACASI
+Zaprionus ornatus,NCBI GenBank,GCA_018904035.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"206,772,757","11,228,854",Zaprionus,ornatus,Z_ORNATUS
+Zaprionus africanus,NCBI GenBank,GCA_018151435.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"162,493,599","11,319,005",Zaprionus,africanus,Z_AFRICANUS
+Zaprionus gabonicus,NCBI GenBank,GCA_018903695.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"187,602,806","13,481,452",Zaprionus,gabonicus,Z_GABONICUS
+Zaprionus indianus,NCBI GenBank,GCA_018904595.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"197,260,855","6,768,749",Zaprionus,indianus,Z_INDIANUS
+Zaprionus capensis,NCBI GenBank,GCA_018903675.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"166,762,837","16,897,986",Zaprionus,capensis,Z_CAPENSIS
+Zaprionus taronus,NCBI GenBank,GCA_018901805.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"162,912,716","5,997,490",Zaprionus,taronus,Z_TARONUS
+Zaprionus davidi,NCBI GenBank,GCA_018903715.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"156,049,829","16,225,587",Zaprionus,davidi,Z_DAVIDI
+Zaprionus vittiger,NCBI GenBank,GCA_018904025.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"162,326,431","8,723,810",Zaprionus,vittiger,Z_VITTIGER
+Zaprionus lachaisei,NCBI GenBank,GCA_018901815.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"148,387,969","9,167,822",Zaprionus,lachaisei,Z_LACHAISEI
+Zaprionus nigranus,NCBI GenBank,GCA_018903425.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"175,473,336","2,235,796",Zaprionus,nigranus,Z_NIGRANUS
+Zaprionus camerounensis,NCBI GenBank,GCA_018904165.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"167,162,588","14,525,333",Zaprionus,camerounensis,Z_CAMEROUNENSIS
+Drosophila quadrilineata,NCBI GenBank,GCA_018150725.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"202,639,777","17,381,606",Drosophila,quadrilineata,D_QUADRILINEATA
+Drosophila pruinosa,NCBI GenBank,GCA_018150935.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"201,065,926","17,664,120",Drosophila,pruinosa,D_PRUINOSA
+Drosophila rubida,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"138,863,325","26,394,667",Drosophila,rubida,D_RUBIDA
+Drosophila hypocausta,NCBI GenBank,PENDING,Kevin Wei et al.,ONT R9.4.1 + Illumina,"157,969,337","27,950,571",Drosophila,hypocausta,D_HYPOCAUSTA
+Drosophila siamana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"149,801,888","5,470,436",Drosophila,siamana,D_SIAMANA
+Drosophila immigrans,NCBI GenBank,GCA_018153375.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"183,277,074","9,651,916",Drosophila,immigrans,D_IMMIGRANS
+Drosophila formosana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"167,892,719","5,886,277",Drosophila,formosana,D_FORMOSANA
+Drosophila ustulata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"179,054,326","13,780,150",Drosophila,ustulata,D_USTULATA
+Drosophila niveifrons,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"153,014,204","14,497,174",Drosophila,niveifrons,D_NIVEIFRONS
+Drosophila sulfurigasteralbostrigata,NCBI GenBank,GCA_023558435.1,"Wei et al. 2022, MBE",ONT R9.4.1 + Illumina + HiC,"168,284,230","37,627,869",Drosophila,sulfurigasteralbostrigata,D_SULFURIGASTERALBOSTRIGATA
+Drosophila sulfurigasterbilimbata,NCBI GenBank,GCA_023558465.1,"Wei et al. 2022, MBE",ONT R9.4.1 + Illumina + HiC,"164,595,183","36,279,119",Drosophila,sulfurigasterbilimbata,D_SULFURIGASTERBILIMBATA
+Drosophila sulfurigastersulfurigaster,NCBI GenBank,GCA_023558475.1,"Wei et al. 2022, MBE",ONT R9.4.1 + Illumina + HiC,"165,884,258","35,818,991",Drosophila,sulfurigastersulfurigaster,D_SULFURIGASTERSULFURIGASTER
+Drosophila kohkoa,NCBI GenBank,GCA_019972355.1,"Nozawa et al. 2021, Genome Res",PacBio Sequel + Illumina,"170,668,061","3,597,765",Drosophila,kohkoa,D_KOHKOA
+Drosophila pallidifrons,NCBI GenBank,GCA_023558445.1 ,"Wei et al. 2022, MBE",ONT R9.4.1 + Illumina + HiC,"164,659,715","37,973,042",Drosophila,pallidifrons,D_PALLIDIFRONS
+Drosophila kepulauana,NCBI GenBank,GCA_023558455.1,"Wei et al. 2022, MBE",ONT R9.4.1 + Illumina + HiC,"163,769,021","34,564,094",Drosophila,kepulauana,D_KEPULAUANA
+Drosophila nasuta,NCBI GenBank,GCA_023558535.1,"Wei et al. 2022, MBE",ONT R9.4.1 + Illumina + HiC,"171,781,232","33,885,645",Drosophila,nasuta,D_NASUTA
+Drosophila albomicans,NCBI RefSeq,GCF_009650485.2,"Mai et al. 2019, MBE",PacBio RS II + Illumina + HiC,"167,525,814","35,291,776",Drosophila,albomicans,D_ALBOMICANS
+Drosophila tripunctata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"168,906,573","2,379,707",Drosophila,tripunctata,D_TRIPUNCTATA
+Drosophila cardini,NCBI GenBank,GCA_018903735.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"181,105,816","4,216,638",Drosophila,cardini,D_CARDINI
+Drosophila parthenogenetica,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"159,568,595","9,880,424",Drosophila,parthenogenetica,D_PARTHENOGENETICA
+Drosophila acutilabella,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"159,932,574","11,349,356",Drosophila,acutilabella,D_ACUTILABELLA
+Drosophila dunni,NCBI GenBank,GCA_018152125.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"177,495,819","14,045,695",Drosophila,dunni,D_DUNNI
+Drosophila nigrodunni,NCBI GenBank,GCA_020829145.1,"Hill et al. 2021, G3",ONT R9.4.1 + Illumina,"145,305,457","17,162,308",Drosophila,nigrodunni,D_NIGRODUNNI
+Drosophila arawakana,NCBI GenBank,GCA_018151165.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"171,389,560","4,863,239",Drosophila,arawakana,D_ARAWAKANA
+Drosophila macrospina,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"143,058,898","4,884,485",Drosophila,macrospina,D_MACROSPINA
+Drosophila funebris,NCBI GenBank,GCA_958295475.1,Darwin TOL,PB HiFi + HiC,"181,096,236","26,827,462",Drosophila,funebris,D_FUNEBRIS
+Drosophila putrida,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"150,775,697","3,315,485",Drosophila,putrida,D_PUTRIDA
+Drosophila neotestacea,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"161,338,693","2,465,813",Drosophila,neotestacea,D_NEOTESTACEA
+Drosophila testacea,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"164,007,512","1,937,950",Drosophila,testacea,D_TESTACEA
+Drosophila histrio,NCBI GenBank,GCA_958299025.1,Darwin TOL,PB HiFi + HiC,"189,265,883","62,479,567",Drosophila,histrio,D_HISTRIO
+Drosophila kuntzei,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"171,842,863","2,277,826",Drosophila,kuntzei,D_KUNTZEI
+Drosophila phalerata,NCBI GenBank,GCA_951394115.1,Darwin TOL,PB HiFi + HiC,"223,932,721","61,822,819",Drosophila,phalerata,D_PHALERATA
+Drosophila innubila,NCBI GenBank,GCA_004354385.2,"Hill et al. 2019, MBE",ONT R9.4.1 + Illumina,"166,284,835","29,570,401",Drosophila,innubila,D_INNUBILA
+Drosophila falleni,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"168,337,960","8,746,158",Drosophila,falleni,D_FALLENI
+Drosophila rellima,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"153,024,811","6,047,347",Drosophila,rellima,D_RELLIMA
+Drosophila quinaria,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"190,504,675","8,437,828",Drosophila,quinaria,D_QUINARIA
+Drosophila suboccidentalis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"182,989,171","518,160",Drosophila,suboccidentalis,D_SUBOCCIDENTALIS
+Drosophila subquinaria,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"194,544,650","236,195",Drosophila,subquinaria,D_SUBQUINARIA
+Drosophila recens,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"220,825,164","120,551",Drosophila,recens,D_RECENS
+Zygothrica flavofinira,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"150,172,222","1,310,356",Zygothrica,flavofinira,Z_FLAVOFINIRA
+Hirtodrosophila trivittata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"167,043,391","7,939,222",Hirtodrosophila,trivittata,H_TRIVITTATA
+Hirtodrosophila cameraria,NCBI GenBank,GCA_949708635.1,Darwin ToL,PB HiFi + HiC,"214,511,801","82,766,246",Hirtodrosophila,cameraria,H_CAMERARIA
+Hirtodrosophila histrioides,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"204,287,912","1,459,694",Hirtodrosophila,histrioides,H_HISTRIOIDES
+Hirtodrosophila confusa,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"213,335,717","6,095,536",Hirtodrosophila,confusa,H_CONFUSA
+Hirtodrosophila alboralis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"179,590,224","662,201",Hirtodrosophila,alboralis,H_ALBORALIS
+Drosophila lacertosa,NCBI GenBank,GCA_004143845.1,"Ellison and Bachtrog 2019, Plos Bio",Illumina,"154,130,906","162,096",Drosophila,lacertosa,D_LACERTOSA
+Drosophila colorata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"186,555,170","6,196,978",Drosophila,colorata,D_COLORATA
+Drosophila robusta,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"162,539,374","11,166,795",Drosophila,robusta,D_ROBUSTA
+Drosophila sordidula,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"166,348,895","8,644,452",Drosophila,sordidula,D_SORDIDULA
+Drosophila micromelanica,NCBI GenBank,GCA_004143825.1,"Ellison and Bachtrog 2019, Plos Bio",Illumina,"156,838,486","50,769",Drosophila,micromelanica,D_MICROMELANICA
+Drosophila nigromelanica,NCBI GenBank,GCA_004149465.1,"Ellison and Bachtrog 2019, Plos Bio",Illumina,"155,317,739","23,593",Drosophila,nigromelanica,D_NIGROMELANICA
+Drosophila melanica,NCBI GenBank,GCA_004143765.1,"Ellison and Bachtrog 2019, Plos Bio",Illumina,"149,951,920","28,961",Drosophila,melanica,D_MELANICA
+Drosophila paramelanica,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"145,052,346","5,600,682",Drosophila,paramelanica,D_PARAMELANICA
+Drosophila lacicola,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"175,880,992","7,152,290",Drosophila,lacicola,D_LACICOLA
+Drosophila montana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"191,706,396","1,323,835",Drosophila,montana,D_MONTANA
+Drosophila borealis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"214,704,267","1,953,869",Drosophila,borealis,D_BOREALIS
+Drosophila littoralis,NCBI GenBank,GCA_018903485.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"236,786,485","7,098,318",Drosophila,littoralis,D_LITTORALIS
+Drosophila kanekoi,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"183,788,030","6,638,446",Drosophila,kanekoi,D_KANEKOI
+Drosophila ezoana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"179,618,705","11,561,277",Drosophila,ezoana,D_EZOANA
+Drosophila virilis,NCBI RefSeq,GCF_003285735.1,"Clark, Long labs",PacBio Sequel + Illumina,"189,443,829","8,697,263",Drosophila,virilis,D_VIRILIS
+Drosophila novamexicana,NCBI RefSeq,GCF_003285875.2,"Clark, Long labs",PacBio Sequel + Illumina,"177,223,868","3,158,326",Drosophila,novamexicana,D_NOVAMEXICANA
+Drosophila americana,NCBI GenBank,GCA_030788265.1,"Flynn et al. 2023, bioRxiv",PacBio + Illumina,"203,011,843","30,829,601",Drosophila,americana,D_AMERICANA
+Drosophila pseudotalamancana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"132,638,452","740,092",Drosophila,pseudotalamancana,D_PSEUDOTALAMANCANA
+Drosophila nannoptera,NCBI GenBank,GCA_020883555.1,"Suvorov et al. 2021, Curr Bio",PacBio Sequel + Illumina,"134,504,500","8,811,711",Drosophila,nannoptera,D_NANNOPTERA
+Drosophila pachea,NCBI GenBank,GCA_020883565.1,"Suvorov et al. 2021, Curr Bio",PacBio Sequel + Illumina,"127,516,150","13,920,077",Drosophila,pachea,D_PACHEA
+Drosophila gaucha,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"171,837,204","3,971,267",Drosophila,gaucha,D_GAUCHA
+Drosophila pegasa,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"157,956,412","7,245,279",Drosophila,pegasa,D_PEGASA
+Drosophila mettleri,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"152,340,797","20,225,147",Drosophila,mettleri,D_METTLERI
+Drosophila hydei,NCBI RefSeq,GCF_003285905.1,"Clark, Long labs",PacBio Sequel + Illumina,"153,741,574","3,367,158",Drosophila,hydei,D_HYDEI
+Drosophila eohydei,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"145,685,441","14,192,769",Drosophila,eohydei,D_EOHYDEI
+Drosophila anceps,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"158,399,901","9,990,161",Drosophila,anceps,D_ANCEPS
+Drosophila leonis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"180,780,699","7,904,563",Drosophila,leonis,D_LEONIS
+Drosophila nigricruria,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"176,748,853","12,253,321",Drosophila,nigricruria,D_NIGRICRURIA
+Drosophila fulvimacula,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"161,239,790","9,663,037",Drosophila,fulvimacula,D_FULVIMACULA
+Drosophila peninsularis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"153,065,513","8,422,728",Drosophila,peninsularis,D_PENINSULARIS
+Drosophila repleta,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 only,"170,107,712","4,644,035",Drosophila,repleta,D_REPLETA
+Drosophila paranaensis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"162,676,536","13,000,432",Drosophila,paranaensis,D_PARANAENSIS
+Drosophila mercatorum,NCBI GenBank,GCA_961210405.1,UT health science center,ONT R9.4.1 + Illumina,"171,182,504","22,671,956",Drosophila,mercatorum,D_MERCATORUM
+Drosophila meridionalis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"175,405,655","17,766,643",Drosophila,meridionalis,D_MERIDIONALIS
+Drosophila meridiana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"190,589,592","7,945,430",Drosophila,meridiana,D_MERIDIANA
+Drosophila stalkeri,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"162,897,099","29,995,461",Drosophila,stalkeri,D_STALKERI
+Drosophila buzzatii,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"177,128,224","3,125,169",Drosophila,buzzatii,D_BUZZATII
+Drosophila koepferae,NCBI GenBank,GCA_023375715.1,"Moreyra et al. 2023, MPE",PacBio RS II + Illumina,"169,139,524","807,058",Drosophila,koepferae,D_KOEPFERAE
+Drosophila antonietae,NCBI GenBank,GCA_030914385.1,"Moreyra et al. 2023, MPE",PacBio Sequel + Illumina,"154,329,146","6,192,318",Drosophila,antonietae,D_ANTONIETAE
+Drosophila borborema,NCBI GenBank,GCA_030914335.1,"Moreyra et al. 2023, MPE",PacBio RS II + Illumina,"177,073,319","11,352,646",Drosophila,borborema,D_BORBOREMA
+Drosophila hamatofila,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"172,312,378","16,326,209",Drosophila,hamatofila,D_HAMATOFILA
+Drosophila mayaguana,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"151,052,993","11,220,800",Drosophila,mayaguana,D_MAYAGUANA
+Drosophila aldrichi,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"166,412,147","4,725,958",Drosophila,aldrichi,D_ALDRICHI
+Drosophila mulleri,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"159,709,662","7,964,008",Drosophila,mulleri,D_MULLERI
+Drosophila mojavensis,NCBI RefSeq,GCF_018153725.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"163,170,721","24,882,697",Drosophila,mojavensis,D_MOJAVENSIS
+Drosophila arizonae,NCBI RefSeq,GCF_001654025.1,"Sanchez-Flores et al. 2016, G3",Illumina,"141,386,800","26,536,676",Drosophila,arizonae,D_ARIZONAE
+Drosophila flavopinicola,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"172,437,340","1,548,285",Drosophila,flavopinicola,D_FLAVOPINICOLA
+Drosophila maculinotata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"183,916,135","6,259,545",Drosophila,maculinotata,D_MACULINOTATA
+Scaptomyza hsui,NCBI GenBank,GCA_018152825.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"223,546,733","5,287,883",Scaptomyza,hsui,S_HSUI
+Scaptomyza graminum,NCBI GenBank,GCA_018901835.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"137,787,325","17,407,008",Scaptomyza,graminum,S_GRAMINUM
+Scaptomyza polygonia,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"202,555,330","1,122,002",Scaptomyza,polygonia,S_POLYGONIA
+Scaptomyza flava,NCBI GenBank,GCA_030179655.1,"Pelaez et al. 2023, G3",PacBio + Illumina + HiC,"330,392,538","31,830,347",Scaptomyza,flava,S_FLAVA
+Scaptomyza montana,NCBI GenBank,GCA_018904305.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"229,076,798","2,436,812",Scaptomyza,montana,S_MONTANA
+Scaptomyza caliginosa,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"115,693,153","961,642",Scaptomyza,caliginosa,S_CALIGINOSA
+Scaptomyza parva,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"140,815,053","15,656,414",Scaptomyza,parva,S_PARVA
+Scaptomyza pallida,NCBI GenBank,GCA_018152965.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"201,650,218","4,279,569",Scaptomyza,pallida,S_PALLIDA
+Scaptomyza reducta,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"151,070,787","497,420",Scaptomyza,reducta,S_REDUCTA
+Scaptomyza tumidula,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"137,900,958","3,595,045",Scaptomyza,tumidula,S_TUMIDULA
+Scaptomyza cyrtandrae,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"147,768,519","14,667,169",Scaptomyza,cyrtandrae,S_CYRTANDRAE
+Drosophila setosimentum,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,911,074","22,604,783",Drosophila,setosimentum,D_SETOSIMENTUM
+Drosophila picticornis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"137,208,866","24,269,455",Drosophila,picticornis,D_PICTICORNIS
+Drosophila anomalipes,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"146,409,276","18,304,052",Drosophila,anomalipes,D_ANOMALIPES
+Drosophila quasianomalipes,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"159,761,135","1,319,094",Drosophila,quasianomalipes,D_QUASIANOMALIPES
+Drosophila cyrtoloma,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"150,463,148","10,820,774",Drosophila,cyrtoloma,D_CYRTOLOMA
+Drosophila melanocephala,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"145,369,347","1,807,593",Drosophila,melanocephala,D_MELANOCEPHALA
+Drosophila differens,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"140,494,658","3,269,494",Drosophila,differens,D_DIFFERENS
+Drosophila planitibia,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"134,152,801","4,000,884",Drosophila,planitibia,D_PLANITIBIA
+Drosophila silvestris,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"139,756,479","7,286,698",Drosophila,silvestris,D_SILVESTRIS
+Drosophila heteroneura,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1,"138,255,615","998,678",Drosophila,heteroneura,D_HETERONEURA
+Drosophila basisetae,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"135,396,141","9,679,735",Drosophila,basisetae,D_BASISETAE
+Drosophila paucipuncta,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"148,937,204","32,042,612",Drosophila,paucipuncta,D_PAUCIPUNCTA
+Drosophila glabriapex,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"135,524,161","15,143,833",Drosophila,glabriapex,D_GLABRIAPEX
+Drosophila macrothrix,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,888,118","14,764,769",Drosophila,macrothrix,D_MACROTHRIX
+Drosophila hawaiiensis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"135,035,390","3,222,401",Drosophila,hawaiiensis,D_HAWAIIENSIS
+Drosophila crucigera,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"135,589,843","24,464,972",Drosophila,crucigera,D_CRUCIGERA
+Drosophila pullipes,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"134,422,997","1,951,204",Drosophila,pullipes,D_PULLIPES
+Drosophila grimshawi,NCBI RefSeq,GCF_018153295.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"191,382,978","23,286,615",Drosophila,grimshawi,D_GRIMSHAWI
+Drosophila engyochracea,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"135,441,041","15,871,817",Drosophila,engyochracea,D_ENGYOCHRACEA
+Drosophila villosipedis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"134,573,727","12,713,188",Drosophila,villosipedis,D_VILLOSIPEDIS
+Drosophila ochracea,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"135,306,413","13,012,772",Drosophila,ochracea,D_OCHRACEA
+Drosophila sproati,NCBI GenBank,GCA_018904355.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"138,134,348","7,964,422",Drosophila,sproati,D_SPROATI
+Drosophila murphyi,NCBI GenBank,GCA_018904325.1,"Kim et al. 2021, eLife",ONT R9.4.1 + Illumina,"153,852,709","11,375,470",Drosophila,murphyi,D_MURPHYI
+Drosophila dives,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,012,669","4,877,032",Drosophila,dives,D_DIVES
+Drosophila multiciliata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"132,171,797","13,307,071",Drosophila,multiciliata,D_MULTICILIATA
+Drosophila demipolita,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"132,248,857","4,076,986",Drosophila,demipolita,D_DEMIPOLITA
+Drosophila longiperda,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"134,214,776","5,374,872",Drosophila,longiperda,D_LONGIPERDA
+Drosophila fungiperda,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"132,210,884","6,143,944",Drosophila,fungiperda,D_FUNGIPERDA
+Drosophila melanosoma,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"133,151,279","3,753,840",Drosophila,melanosoma,D_MELANOSOMA
+Drosophila mimica,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"142,248,586","5,000,283",Drosophila,mimica,D_MIMICA
+Drosophila kambysellisi,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"150,025,887","4,777,679",Drosophila,kambysellisi,D_KAMBYSELLISI
+Drosophila infuscata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"154,366,779","3,594,937",Drosophila,infuscata,D_INFUSCATA
+Drosophila cognata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"137,070,401","10,361,167",Drosophila,cognata,D_COGNATA
+Drosophila yooni,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"137,805,860","1,734,321",Drosophila,yooni,D_YOONI
+Drosophila tanythrix,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"145,218,432","13,081,679",Drosophila,tanythrix,D_TANYTHRIX
+Drosophila kokeensis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"137,360,078","8,387,460",Drosophila,kokeensis,D_KOKEENSIS
+Drosophila nrfundita,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,603,901","3,946,148",Drosophila,nrfundita,D_NRFUNDITA
+Drosophila cracens,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"138,340,014","3,411,203",Drosophila,cracens,D_CRACENS
+Drosophila paracracens,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,672,539","8,026,734",Drosophila,paracracens,D_PARACRACENS
+Drosophila imparisetae,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,547,435","5,632,516",Drosophila,imparisetae,D_IMPARISETAE
+Drosophila nigritarsus,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"167,178,171","6,580,780",Drosophila,nigritarsus,D_NIGRITARSUS
+Drosophila nrmedialis2,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"137,750,540","7,069,007",Drosophila,nrmedialis2,D_NRMEDIALIS2
+Drosophila nrmedialis3,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R9.4.1 + Illumina,"136,698,498","3,480,823",Drosophila,nrmedialis3,D_NRMEDIALIS3
+Drosophila seclusa,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"135,676,904","3,931,036",Drosophila,seclusa,D_SECLUSA
+Drosophila kupee,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"137,240,638","5,302,149",Drosophila,nr. perissopoda 5,D_NRPERISSOPODA5
+Drosophila kuia,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"141,321,204","1,847,206",Drosophila,nr. perissopoda 1,D_NRPERISSOPODA1
+Drosophila atroscutellata,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"132,412,710","22,232,325",Drosophila,atroscutellata,D_ATROSCUTELLATA
+Drosophila trichaetosa,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"136,293,988","4,071,654",Drosophila,trichaetosa,D_TRICHAETOSA
+Drosophila neutralis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"145,644,896","5,990,569",Drosophila,neutralis,D_NEUTRALIS
+Drosophila percnosoma,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"138,081,886","2,688,829",Drosophila,percnosoma,D_PERCNOSOMA
+Drosophila incognita,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"139,501,700","4,863,250",Drosophila,incognita,D_INCOGNITA
+Drosophila conformis,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"139,250,349","3,227,644",Drosophila,conformis,D_CONFORMIS
+Drosophila sordidapex,NCBI GenBank,PENDING,Kim et al. - PENDING,ONT R10.4.1 + Illumina,"139,085,443","3,193,695",Drosophila,sordidapex,D_SORDIDAPEX

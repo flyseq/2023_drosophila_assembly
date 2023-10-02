@@ -143,6 +143,11 @@ RUN cd /tools \
  && rm dorado-0.3.4-linux-x64.tar.gz \
  && ln -sf /tools/dorado-0.3.4-linux-x64/bin/dorado /usr/local/bin/
 
+ENV LANG="C"
+ENV LC_ALL="C"
+ENV SINGULARITYENV_LANG="C"
+ENV SINGULARITYENV_LC_ALL="C"
+
 # install guppy duplex
 RUN pip install ont-guppy-duplex-pipeline
 
