@@ -16,9 +16,11 @@ if illumExists:
         hap1=expand("{sample}.hapdup_1.fasta",sample=config['sample']),
         hap2=expand("{sample}.hapdup_2.fasta",sample=config['sample']),
         merqQV=expand("{sample}.merqury.qv",sample=config['sample']),
-        merqQVg=expand("{sample}.merqury.genome.qv",sample=config['sample']),
-        merqComp=expand("{sample}.merqury.completeness.stats",sample=config['sample']),
-        yak=expand("{sample}.yak.out",sample=config['sample']),
+        qvHapdup1=expand("{sample}.merqury.hapdup_1.qv",sample=config['sample']),
+        qvHapdup2=expand("{sample}.merqury.hapdup_2.qv",sample=config['sample']),
+        completeness=expand("{sample}.merqury.completeness.stats",sample=config['sample']),
+        yak1=expand("{sample}.hapdup_1.yak.out",sample=config['sample']),
+        yak2=expand("{sample}.hapdup_2.yak.out",sample=config['sample']),
         pmdVCF=expand("{sample}.vcf.gz",sample=config['sample']),
         pmdVCFidx=expand("{sample}.vcf.gz.tbi",sample=config['sample']),
         pmdGVCF=expand("{sample}.g.vcf.gz",sample=config['sample']),
@@ -256,9 +258,9 @@ rule hapDupMap:
     singularity: config['singularity_images']['assembly']
     input:
         reads=hdReads,
-        draft="{species}.purged.fasta"
+        draft="{sample}.purged.fasta"
     output:
-        bam=temporary("{species}.hd.mapped.bam")
+        bam=temporary("{sample}.hd.mapped.bam")
     params:
         mm2s=mm2s
     threads:
@@ -271,9 +273,9 @@ rule hapDupMap:
 rule hapDupIdx:
     singularity: config['singularity_images']['assembly']
     input:
-        bam="{species}.hd.mapped.bam"
+        bam="{sample}.hd.mapped.bam"
     output:
-        idx=temporary("{species}.hd.mapped.bam.bai")
+        idx=temporary("{sample}.hd.mapped.bam.bai")
     threads:
         80
     shell:
@@ -288,13 +290,13 @@ else:
 rule hapDup:
     singularity: config['singularity_images']['hapdup']
     input:
-        draft="{species}.purged.fasta",
-        bam="{species}.hd.mapped.bam",
-        idx="{species}.hd.mapped.bam.bai"
+        draft="{sample}.purged.fasta",
+        bam="{sample}.hd.mapped.bam",
+        idx="{sample}.hd.mapped.bam.bai"
     output:
-        hdir=temporary(directory("{species}.hapdup")),
-        draft1="{species}.hapdup_1.fasta",
-        draft2="{species}.hapdup_2.fasta"
+        hdir=temporary(directory("{sample}.hapdup")),
+        draft1="{sample}.hapdup_1.fasta",
+        draft2="{sample}.hapdup_2.fasta"
     params:
         HDs=HDs
     threads:
@@ -384,9 +386,9 @@ if illumExists:
             80
         shell:
             "merqury {input.meryl} {input.genome1} {input.genome2}"
-            " {wildcards.species}.merqury > {output.log} ; "
-            "mv {wildcards.sample}.merqury.{sample}.hapdup_1.qv {output.qvHapdup1}; "
-            "mv {wildcards.sample}.merqury.{sample}.hapdup_2.qv {output.qvHapdup2}; "
+            " {wildcards.sample}.merqury > {output.log} ; "
+            "mv {wildcards.sample}.merqury.{wildcards.sample}.hapdup_1.qv {output.qvHapdup1}; "
+            "mv {wildcards.sample}.merqury.{wildcards.sample}.hapdup_2.qv {output.qvHapdup2}; "
 
 # If Illumina reads exist, evaluate QV with Yak
 if illumExists:
