@@ -1,12 +1,12 @@
 # paths to singularity images
 singularity_images:
-  assembly: "singularity_images/assembly.simg"
-  fcsadaptor: "singularity_images/fcs-adaptor.sif"
-  fcsgx: "singularity_images/fcsgx.sif"
-  tetools: "singularity_images/tetools.simg"
-  parabricks: "singularity_images/parabricks.simg"
-  pmd: "singularity_images/deepvariant.simg"
-  hapdup: "singularity_images/hapdup.simg"
+  assembly: "~/singularity_images/nanopore.simg"
+  fcsadaptor: "/home/bernardkim/singularity_images/fcs-adaptor.sif"
+  fcsgx: "/home/bernardkim/singularity_images/fcsgx-0.4.0.sif"  #must end in .sif
+  tetools: "~/singularity_images/tetools.simg"
+  parabricks: "~/singularity_images/parabricks.simg"
+  pmd: "~/singularity_images/deepvariant.simg"
+  hapdup: "~/singularity_images/hapdup.simg"
 
 # Ratatosk settings
 ratatosk:

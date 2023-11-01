@@ -176,11 +176,13 @@ rule removeContam:
         genome="{sample}.cleaned.fasta",
         contam="{sample}.contam.fasta",
         report="{sample}.fcs.report"
+    params:
+        simg=config['singularity_images']['fcsgx']
     threads:
         1
     shell:
-        "cat {input.draft}"
-        " | python3 ./fcs.py clean genome --action-report {input.fcsfile}"
+        'export FCS_DEFAULT_IMAGE="{params.simg}"; '
+        "python3 ./fcs.py clean genome -i {input.draft} --action-report {input.fcsfile}"
         "     --output {wildcards.sample}.tmp.fa --contam-fasta-out {output.contam}; "
         """awk '/^>/{{print ">contig_" ++i; next}}{{print}}' {wildcards.sample}.tmp.fa > {output.genome};"""
         "cp {input.fcsfile} {output.report}"
